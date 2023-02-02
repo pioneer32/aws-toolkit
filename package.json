@@ -1,0 +1,33 @@
+{
+  "name": "@pioneer32/dynamodb-toolkit",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Vlad Churakov <vlchrkv@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pioneer32/dynamodb-toolkit.git"
+  },
+  "private": true,
+  "scripts": {
+    "postinstall": "lerna clean --yes; npm run bootstrap; patch-package",
+    "bootstrap": "lerna bootstrap --hoist",
+    "fix-npm": "lerna clean --yes && npm cache clean --force && find . -name package-lock.json | while read f; do unlink $f; done && npm i",
+    "test": "lerna run test --stream",
+    "typecheck": "lerna run typecheck --stream"
+  },
+  "overrides": {},
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "4.0.0",
+    "prettier": "<2.5.1",
+    "@types/jest": "27.0.2",
+    "jest": "27.2.4",
+    "ts-jest": "27.0.5",
+    "patch-package": "^6.4.7"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.3.0"
+  }
+}

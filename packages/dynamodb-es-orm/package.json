@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "name": "@pioneer32/dynamodb-es-orm",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Vlad Churakov <vlchrkv@gmail.com>",
+  "private": false,
+  "scripts": {
+    "typecheck": "tsc -noEmit",
+    "test": "FORCE_COLOR=1 jest --runInBand",
+    "test:watch": "FORCE_COLOR=1 jest --watch"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.47.0",
+    "typescript-chained-error": "1.6.0",
+    "@pioneer32/dynamodb-data-mapper": "*",
+    "@pioneer32/dynamodb-identity-mapper": "*"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=8.3.0"
+  }
+}

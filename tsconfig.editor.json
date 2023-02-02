@@ -1,0 +1,16 @@
+{
+  // This is to fool IDE - it doesn't support multiple contexts with individual tsconfigs yet :(
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./packages/dynamodb-data-mapper/src",
+    "./packages/dynamodb-data-mapper/*.ts",
+    "./packages/dynamodb-identity-mapper/src",
+    "./packages/dynamodb-identity-mapper/*.ts",
+    "./packages/dynamodb-es-orm/src",
+    "./packages/dynamodb-es-orm/*.ts"
+  ]
+}

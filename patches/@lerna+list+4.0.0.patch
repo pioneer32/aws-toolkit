@@ -1,0 +1,41 @@
+diff --git a/node_modules/@lerna/list/index.js b/node_modules/@lerna/list/index.js
+index d6dc750..0e7fe03 100644
+--- a/node_modules/@lerna/list/index.js
++++ b/node_modules/@lerna/list/index.js
+@@ -1,9 +1,9 @@
+-"use strict";
++'use strict';
+ 
+-const { Command } = require("@lerna/command");
+-const listable = require("@lerna/listable");
+-const { output } = require("@lerna/output");
+-const { getFilteredPackages } = require("@lerna/filter-options");
++const { Command } = require('@lerna/command');
++const listable = require('@lerna/listable');
++const { output } = require('@lerna/output');
++const { getFilteredPackages } = require('@lerna/filter-options');
+ 
+ module.exports = factory;
+ 
+@@ -30,7 +30,9 @@ class ListCommand extends Command {
+   execute() {
+     // piping to `wc -l` should not yield 1 when no packages matched
+     if (this.result.text.length) {
+-      output(this.result.text);
++      if (!this.options.return) {
++        output(this.result.text);
++      }
+     }
+ 
+     this.logger.success(
+@@ -39,6 +41,10 @@ class ListCommand extends Command {
+       this.result.count,
+       this.result.count === 1 ? "package" : "packages"
+     );
++
++    if (this.options.return) {
++      return this.result.text;
++    }
+   }
+ }
+ 
