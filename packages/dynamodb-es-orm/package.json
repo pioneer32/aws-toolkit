@@ -13,13 +13,15 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.47.0",
-    "typescript-chained-error": "1.6.0",
-    "@pioneer32/dynamodb-data-mapper": "*",
-    "@pioneer32/dynamodb-identity-mapper": "*"
+    "@pioneer32/data-mapper": "*",
+    "@pioneer32/dynamodb-identity-mapper": "*",
+    "typescript-chained-error": "1.6.0"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=8.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

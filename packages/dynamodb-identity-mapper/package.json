@@ -12,8 +12,8 @@
     "test:watch": "FORCE_COLOR=1 jest --watch"
   },
   "dependencies": {
-    "typescript-chained-error": "1.6.0",
-    "@pioneer32/dynamodb-data-mapper": "*"
+    "@pioneer32/data-mapper": "*",
+    "typescript-chained-error": "1.6.0"
   },
   "devDependencies": {
     "mockdate": "3.0.5"
@@ -21,5 +21,8 @@
   "engines": {
     "node": ">=14.0.0",
     "npm": ">=8.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

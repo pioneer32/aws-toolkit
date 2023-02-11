@@ -6,8 +6,8 @@
     "experimentalDecorators": true
   },
   "include": [
-    "./packages/dynamodb-data-mapper/src",
-    "./packages/dynamodb-data-mapper/*.ts",
+    "./packages/data-mapper/src",
+    "./packages/data-mapper/*.ts",
     "./packages/dynamodb-identity-mapper/src",
     "./packages/dynamodb-identity-mapper/*.ts",
     "./packages/dynamodb-es-orm/src",

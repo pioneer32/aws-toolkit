@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "noUnusedParameters": false,
+    "noUnusedLocals": false
+  },
+  "include": ["./src/", "./*.ts"]
+}

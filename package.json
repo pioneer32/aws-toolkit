@@ -1,12 +1,12 @@
 {
-  "name": "@pioneer32/dynamodb-toolkit",
+  "name": "@pioneer32/aws-toolkit",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
   "author": "Vlad Churakov <vlchrkv@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pioneer32/dynamodb-toolkit.git"
+    "url": "https://github.com/pioneer32/aws-toolkit.git"
   },
   "private": true,
   "scripts": {
@@ -24,7 +24,12 @@
     "@types/jest": "27.0.2",
     "jest": "27.2.4",
     "ts-jest": "27.0.5",
-    "patch-package": "^6.4.7"
+    "patch-package": "^6.4.7",
+    "reflect-metadata": "0.1.13",
+    "ts-loader": "9.2.5",
+    "webpack": "5.52.1",
+    "webpack-cli": "4.8.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "engines": {
     "node": ">=16.0.0",

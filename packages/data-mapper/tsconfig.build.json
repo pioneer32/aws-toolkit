@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig",
+  "compilerOptions": {},
+  "include": ["./src/", "./*.ts"],
+  "exclude": ["**/*.test.ts"]
+}

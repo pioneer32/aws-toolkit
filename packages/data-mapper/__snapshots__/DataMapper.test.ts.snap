@@ -1,0 +1,1469 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataMapper @Values, special cases: Inheritance should map entity Id properties to DB attributes: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "II12@1",
+  },
+  "_childId": Object {
+    "S": "Foo#Baz#Id#b",
+  },
+  "id": Object {
+    "S": "Foo#Baz#Id#Yoy",
+  },
+  "ownerId": Object {
+    "S": "Foo#Bar#Id#a",
+  },
+}
+`;
+
+exports[`DataMapper @Values, special cases: Inheritance should map entity Id properties to DB attributes: [1] dtoValue 1`] = `
+Object {
+  "$type": "II12@1",
+  "_childId": "Foo#Baz#Id#b",
+  "id": "Foo#Baz#Id#Yoy",
+  "ownerId": "Foo#Bar#Id#a",
+}
+`;
+
+exports[`DataMapper @Values, special cases: Inheritance should map entity Id properties to DB attributes: [2] rehydratedEntityFromDb 1`] = `
+II12 {
+  "_childId": ID4 {
+    "id": "b",
+    "scope": "Baz",
+  },
+  "_ownerId": ID3 {
+    "id": "a",
+    "scope": "Bar",
+  },
+  "id": ID5 {
+    "id": "Yoy",
+    "scope": "Baz",
+  },
+}
+`;
+
+exports[`DataMapper @Values, special cases: Inheritance should map entity Id properties to DB attributes: [2] rehydratedEntityFromDto 1`] = `
+II12 {
+  "_childId": ID4 {
+    "id": "b",
+    "scope": "Baz",
+  },
+  "_ownerId": ID3 {
+    "id": "a",
+    "scope": "Bar",
+  },
+  "id": ID5 {
+    "id": "Yoy",
+    "scope": "Baz",
+  },
+}
+`;
+
+exports[`DataMapper Annotated with @Entity should map collection attributes: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "EA11@1",
+  },
+  "id": Object {
+    "S": "id#foo",
+  },
+  "name": Object {
+    "S": "bar",
+  },
+}
+`;
+
+exports[`DataMapper Annotated with @Entity should map collection attributes: [1] dtoValue 1`] = `
+Object {
+  "$type": "EA11@1",
+  "id": "id#foo",
+  "name": "bar",
+}
+`;
+
+exports[`DataMapper Annotated with @Entity should map collection attributes: [2] rehydratedEntityFromDb 1`] = `
+EA11 {
+  "id": "foo",
+  "name": "bar",
+}
+`;
+
+exports[`DataMapper Annotated with @Entity should map collection attributes: [2] rehydratedEntityFromDto 1`] = `
+EA11 {
+  "id": "foo",
+  "name": "bar",
+}
+`;
+
+exports[`DataMapper Collection Attribute Mappers should map collection attributes: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "CA11@1",
+  },
+  "_optional": Object {
+    "NULL": true,
+  },
+  "bools": Object {
+    "L": Array [
+      Object {
+        "BOOL": true,
+      },
+      Object {
+        "BOOL": false,
+      },
+    ],
+  },
+  "children": Object {
+    "L": Array [
+      Object {
+        "M": Object {
+          "$type": Object {
+            "S": "I@1",
+          },
+          "name": Object {
+            "S": "I am an inlined entity",
+          },
+        },
+      },
+    ],
+  },
+  "ids": Object {
+    "L": Array [
+      Object {
+        "S": "1",
+      },
+      Object {
+        "S": "2",
+      },
+    ],
+  },
+  "numbers": Object {
+    "L": Array [
+      Object {
+        "N": "1",
+      },
+      Object {
+        "N": "2",
+      },
+    ],
+  },
+  "nums": Object {
+    "L": Array [
+      Object {
+        "N": "3",
+      },
+      Object {
+        "N": "4",
+      },
+    ],
+  },
+}
+`;
+
+exports[`DataMapper Collection Attribute Mappers should map collection attributes: [1] dtoValue 1`] = `
+Object {
+  "$type": "CA11@1",
+  "_optional": null,
+  "bools": Array [
+    true,
+    false,
+  ],
+  "children": Array [
+    Object {
+      "$type": "I@1",
+      "name": "I am an inlined entity",
+    },
+  ],
+  "ids": Array [
+    "1",
+    "2",
+  ],
+  "numbers": Array [
+    1,
+    2,
+  ],
+  "nums": Array [
+    3,
+    4,
+  ],
+}
+`;
+
+exports[`DataMapper Collection Attribute Mappers should map collection attributes: [2] rehydratedEntityFromDb 1`] = `
+CA11 {
+  "_bools": Array [
+    true,
+    false,
+  ],
+  "_optional": null,
+  "_secretNums": Array [
+    3,
+    4,
+  ],
+  "children": Array [
+    I {
+      "name": "I am an inlined entity",
+    },
+  ],
+  "ids": Array [
+    "1",
+    "2",
+  ],
+  "numbers": Array [
+    1,
+    2,
+  ],
+}
+`;
+
+exports[`DataMapper Collection Attribute Mappers should map collection attributes: [2] rehydratedEntityFromDto 1`] = `
+CA11 {
+  "_bools": Array [
+    true,
+    false,
+  ],
+  "_optional": null,
+  "_secretNums": Array [
+    3,
+    4,
+  ],
+  "children": Array [
+    I {
+      "name": "I am an inlined entity",
+    },
+  ],
+  "ids": Array [
+    "1",
+    "2",
+  ],
+  "numbers": Array [
+    1,
+    2,
+  ],
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "C3@1",
+  },
+  "child1": Object {
+    "M": Object {
+      "$type": Object {
+        "S": "C2@1",
+      },
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "2",
+      },
+    },
+  },
+  "child2": Object {
+    "M": Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+  },
+  "id": Object {
+    "S": "3",
+  },
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [1] dtoValue 1`] = `
+Object {
+  "$type": "C3@1",
+  "child1": Object {
+    "$type": "C2@1",
+    "child": Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    "id": "2",
+  },
+  "child2": Object {
+    "$type": "C1@1",
+    "Id": "1",
+    "name": "foo",
+  },
+  "id": "3",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [2] calls to 1`] = `
+Array [
+  Array [
+    "C1.name.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1.id.to",
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C2.to",
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "2",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1.name.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C3.to",
+    Object {
+      "child1": C2 {
+        "child": C1 {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "child1": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C2@1",
+          },
+          "child": Object {
+            "M": Object {
+              "$type": Object {
+                "S": "C1@1",
+              },
+              "Id": "1",
+              "name": "foo",
+            },
+          },
+          "id": Object {
+            "S": "2",
+          },
+        },
+      },
+      "child2": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "3",
+      },
+    },
+    Object {
+      "level": 0,
+      "path": "C3.",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [2] calls to 2`] = `
+Array [
+  Array [
+    "C1.name.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1.id.to",
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C2.to",
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1.name.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1.to",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C3.to",
+    Object {
+      "child1": C2 {
+        "child": C1 {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "child1": Object {
+        "$type": "C2@1",
+        "child": Object {
+          "$type": "C1@1",
+          "Id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "level": 0,
+      "path": "C3.",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [3] rehydratedEntityFromDb 1`] = `
+C3 {
+  "child1": C2 {
+    "child": C1 {
+      "id": "1",
+      "name": "foo",
+    },
+    "id": "2",
+  },
+  "child2": C1 {
+    "id": "1",
+    "name": "foo",
+  },
+  "id": "3",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [3] rehydratedEntityFromDto 1`] = `
+C3 {
+  "child1": C2 {
+    "child": C1 {
+      "id": "1",
+      "name": "foo",
+    },
+    "id": "2",
+  },
+  "child2": C1 {
+    "id": "1",
+    "name": "foo",
+  },
+  "id": "3",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [4] calls from 1`] = `
+Array [
+  Array [
+    "C1.name.from",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.from",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.id.from",
+    Object {
+      "$type": Object {
+        "S": "C2@1",
+      },
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "2",
+      },
+    },
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2.from",
+    Object {
+      "$type": Object {
+        "S": "C2@1",
+      },
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "2",
+      },
+    },
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.name.from",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.from",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C3.from",
+    Object {
+      "$type": Object {
+        "S": "C3@1",
+      },
+      "child1": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C2@1",
+          },
+          "child": Object {
+            "M": Object {
+              "$type": Object {
+                "S": "C1@1",
+              },
+              "Id": "1",
+              "name": "foo",
+            },
+          },
+          "id": Object {
+            "S": "2",
+          },
+        },
+      },
+      "child2": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "3",
+      },
+    },
+    Object {
+      "child1": C2 {
+        "child": C1 {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "level": 0,
+      "path": "C3@1.",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [4] calls from 2`] = `
+Array [
+  Array [
+    "C1.name.from",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.from",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.id.from",
+    Object {
+      "$type": "C2@1",
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2.from",
+    Object {
+      "$type": "C2@1",
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.name.from",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.from",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C3.from",
+    Object {
+      "$type": "C3@1",
+      "child1": Object {
+        "$type": "C2@1",
+        "child": Object {
+          "$type": "C1@1",
+          "Id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "child1": C2 {
+        "child": C1 {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": C1 {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "level": 0,
+      "path": "C3@1.",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Dictionary Attribute Mappers should map dictionary attributes: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "DA11@1",
+  },
+  "_optional": Object {
+    "NULL": true,
+  },
+  "bools": Object {
+    "M": Object {
+      "x": Object {
+        "BOOL": false,
+      },
+      "z": Object {
+        "BOOL": true,
+      },
+    },
+  },
+  "children": Object {
+    "M": Object {
+      "x": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "I@1",
+          },
+          "name": Object {
+            "S": "I am an inlined entity",
+          },
+        },
+      },
+    },
+  },
+  "ids": Object {
+    "M": Object {
+      "id1": Object {
+        "S": "1",
+      },
+      "id2": Object {
+        "S": "2",
+      },
+    },
+  },
+  "numbers": Object {
+    "M": Object {
+      "a": Object {
+        "N": "1",
+      },
+      "b": Object {
+        "N": "2",
+      },
+    },
+  },
+  "nums": Object {
+    "M": Object {
+      "q": Object {
+        "N": "3",
+      },
+      "w": Object {
+        "N": "4",
+      },
+    },
+  },
+}
+`;
+
+exports[`DataMapper Dictionary Attribute Mappers should map dictionary attributes: [1] dtoValue 1`] = `
+Object {
+  "$type": "DA11@1",
+  "_optional": null,
+  "bools": Object {
+    "x": false,
+    "z": true,
+  },
+  "children": Object {
+    "x": Object {
+      "$type": "I@1",
+      "name": "I am an inlined entity",
+    },
+  },
+  "ids": Object {
+    "id1": "1",
+    "id2": "2",
+  },
+  "numbers": Object {
+    "a": 1,
+    "b": 2,
+  },
+  "nums": Object {
+    "q": 3,
+    "w": 4,
+  },
+}
+`;
+
+exports[`DataMapper Dictionary Attribute Mappers should map dictionary attributes: [2] rehydratedEntityFromDb 1`] = `
+DA11 {
+  "_bools": Map {
+    "z" => true,
+    "x" => false,
+  },
+  "_optional": null,
+  "_secretNums": Map {
+    "q" => 3,
+    "w" => 4,
+  },
+  "children": Map {
+    "x" => I {
+      "name": "I am an inlined entity",
+    },
+  },
+  "ids": Map {
+    "id1" => "1",
+    "id2" => "2",
+  },
+  "numbers": Map {
+    "a" => 1,
+    "b" => 2,
+  },
+}
+`;
+
+exports[`DataMapper Dictionary Attribute Mappers should map dictionary attributes: [2] rehydratedEntityFromDto 1`] = `
+DA11 {
+  "_bools": Map {
+    "z" => true,
+    "x" => false,
+  },
+  "_optional": null,
+  "_secretNums": Map {
+    "q" => 3,
+    "w" => 4,
+  },
+  "children": Map {
+    "x" => I {
+      "name": "I am an inlined entity",
+    },
+  },
+  "ids": Map {
+    "id1" => "1",
+    "id2" => "2",
+  },
+  "numbers": Map {
+    "a" => 1,
+    "b" => 2,
+  },
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "IA14@1",
+  },
+  "a": Object {
+    "N": "2",
+  },
+  "b": Object {
+    "N": "1",
+  },
+  "c": Object {
+    "N": "2",
+  },
+  "e": Object {
+    "N": "4",
+  },
+  "q": Object {
+    "N": "2",
+  },
+  "w": Object {
+    "N": "2",
+  },
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [1] dtoValue 1`] = `
+Object {
+  "$type": "IA14@1",
+  "a": 2,
+  "b": 1,
+  "c": 2,
+  "e": 4,
+  "q": 2,
+  "w": 2,
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [2] rehydratedEntityFromDb 1`] = `
+IA14 {
+  "a": 2,
+  "b": 1,
+  "c": 2,
+  "e": 4,
+  "q": 2,
+  "w": 2,
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [2] rehydratedEntityFromDto 1`] = `
+IA14 {
+  "a": 2,
+  "b": 1,
+  "c": 2,
+  "e": 4,
+  "q": 2,
+  "w": 2,
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "IA13@1",
+  },
+  "a": Object {
+    "N": "2",
+  },
+  "b": Object {
+    "N": "1",
+  },
+  "c": Object {
+    "N": "3",
+  },
+  "e": Object {
+    "N": "2",
+  },
+  "q": Object {
+    "N": "3",
+  },
+  "w": Object {
+    "N": "2",
+  },
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [1] dtoValue 1`] = `
+Object {
+  "$type": "IA13@1",
+  "a": 2,
+  "b": 1,
+  "c": 3,
+  "e": 2,
+  "q": 3,
+  "w": 2,
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [2] rehydratedEntityFromDb 1`] = `
+IA13 {
+  "_q": 3,
+  "a": 2,
+  "b": 1,
+  "c": 3,
+  "e": 2,
+  "q": 3,
+  "w": 2,
+}
+`;
+
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [2] rehydratedEntityFromDto 1`] = `
+IA13 {
+  "_q": 3,
+  "a": 2,
+  "b": 1,
+  "c": 3,
+  "e": 2,
+  "q": 3,
+  "w": 2,
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity under inheritance: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "C23@1",
+  },
+  "Version": "v2",
+  "code": Object {
+    "S": "code",
+  },
+  "id": "id#id_code",
+  "name": "code is code",
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity under inheritance: [1] dtoValue 1`] = `
+Object {
+  "$type": "C23@1",
+  "Version": "v2",
+  "code": "code",
+  "id": "id#id_code",
+  "name": "code is code",
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity under inheritance: [2] rehydratedEntityFromDb 1`] = `
+C23 {
+  "code": "code",
+  "id": "id_code",
+  "name": "code is code",
+  "version": "v2",
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity under inheritance: [2] rehydratedEntityFromDto 1`] = `
+C23 {
+  "code": "code",
+  "id": "id_code",
+  "name": "code is code",
+  "version": "v2",
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "C21@1",
+  },
+  "id": "id#3",
+  "name": "foo",
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity: [1] dtoValue 1`] = `
+Object {
+  "$type": "C21@1",
+  "id": "id#3",
+  "name": "foo",
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity: [2] rehydratedEntityFromDb 1`] = `
+C21 {
+  "id": "3",
+  "name": "foo",
+}
+`;
+
+exports[`DataMapper Inheritance with @Entity(toDb and fromDb) should map an entity annotated with @Entity: [2] rehydratedEntityFromDto 1`] = `
+C21 {
+  "id": "3",
+  "name": "foo",
+}
+`;
+
+exports[`DataMapper Simple Attribute Mappers should map simple attributes: [1] dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "SA11@1",
+  },
+  "_secret": Object {
+    "S": "nope",
+  },
+  "bool": Object {
+    "BOOL": true,
+  },
+  "entity": Object {
+    "M": Object {
+      "$type": Object {
+        "S": "I@1",
+      },
+      "name": Object {
+        "S": "I am an inlined entity",
+      },
+    },
+  },
+  "id": Object {
+    "N": "2",
+  },
+  "num": Object {
+    "N": "1",
+  },
+  "optional1": Object {
+    "S": "bar",
+  },
+  "optional3": Object {
+    "NULL": true,
+  },
+  "private": Object {
+    "S": "foo",
+  },
+  "value": Object {
+    "S": "value=I am a value",
+  },
+}
+`;
+
+exports[`DataMapper Simple Attribute Mappers should map simple attributes: [1] dtoValue 1`] = `
+Object {
+  "$type": "SA11@1",
+  "_secret": "nope",
+  "bool": true,
+  "entity": Object {
+    "$type": "I@1",
+    "name": "I am an inlined entity",
+  },
+  "id": 2,
+  "num": 1,
+  "optional1": "bar",
+  "optional3": null,
+  "private": "foo",
+  "value": "value=I am a value",
+}
+`;
+
+exports[`DataMapper Simple Attribute Mappers should map simple attributes: [2] rehydratedEntityFromDb 1`] = `
+SA11 {
+  "_optional3": null,
+  "_private": "foo",
+  "_secret": "nope",
+  "bool": true,
+  "entity": I {
+    "name": "I am an inlined entity",
+  },
+  "id": 2,
+  "num": 1,
+  "optional1": "bar",
+  "value": V {
+    "name": "I am a value",
+  },
+}
+`;
+
+exports[`DataMapper Simple Attribute Mappers should map simple attributes: [2] rehydratedEntityFromDto 1`] = `
+SA11 {
+  "_optional3": null,
+  "_private": "foo",
+  "_secret": "nope",
+  "bool": true,
+  "entity": I {
+    "name": "I am an inlined entity",
+  },
+  "id": 2,
+  "num": 1,
+  "optional1": "bar",
+  "value": V {
+    "name": "I am a value",
+  },
+}
+`;
