@@ -31,11 +31,6 @@
     "node": ">=14.0.0",
     "npm": ">=8.3.0"
   },
-  "typings": "lib/doctor.d.ts",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
   "files": [
     "src",
     "dist",
