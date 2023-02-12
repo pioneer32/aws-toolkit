@@ -13,7 +13,7 @@ module.exports = {
     }),
   ],
   mode: "production",
-  entry: ["./index.ts"],
+  entry: ["./index.ts","./decorators.ts"],
   output: {
     path: path.resolve(__dirname, "dist/umd"),
     filename: "index.js",

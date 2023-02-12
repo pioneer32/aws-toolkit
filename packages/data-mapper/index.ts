@@ -13,7 +13,6 @@ export const Config = {
   findEntityConfigurationEntry,
 };
 
-export * from "./src/decorators";
 export { type ChainableMapper } from "./src/types";
 
 export default DataMapper;
