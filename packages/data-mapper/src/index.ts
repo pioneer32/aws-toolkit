@@ -14,5 +14,6 @@ export const Config = {
 };
 
 export { type ChainableMapper } from "./types";
+export * from "./decorators";
 
 export default DataMapper;

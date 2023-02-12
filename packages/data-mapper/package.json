@@ -12,10 +12,9 @@
   "private": false,
   "scripts": {
     "clean": "rm -rf ./dist/*",
-    "prepack": "npm run clean; npm run prepack:cjs && npm run prepack:esm && npm run prepack:umd && npm run prepack:types",
+    "prepack": "npm run clean; npm run prepack:cjs && npm run prepack:esm && npm run prepack:types",
     "prepack:cjs": "tsc -p ./tsconfig.cjs.json",
     "prepack:esm": "tsc -p ./tsconfig.esm.json",
-    "prepack:umd": "webpack --config ./webpack.config.js",
     "prepack:types": "tsc -p ./tsconfig.types.json",
     "test": "FORCE_COLOR=1 jest --runInBand",
     "test:watch": "FORCE_COLOR=1 jest --watch",
@@ -42,7 +41,6 @@
   ],
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "umd:main": "./dist/umd/index.js",
   "types": "./dist/types/index.d.ts",
   "source": "./src/index.ts",
   "exports": {
@@ -52,13 +50,6 @@
       "require": "./dist/cjs/index.js",
       "node": "./dist/esm/index.js",
       "types": "./dist/types/index.d.ts"
-    },
-    "./decorators": {
-      "import": "./dist/esm/decorators.js",
-      "module": "./dist/esm/decorators.js",
-      "require": "./dist/cjs/decorators.js",
-      "node": "./dist/esm/decorators.js",
-      "types": "./dist/types/decorators.d.ts"
     }
   },
   "publishConfig": {
