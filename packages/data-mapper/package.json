@@ -43,7 +43,6 @@
   "module": "./dist/esm/index.js",
   "esnext": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
-  "typings": "./dist/typings/index.d.ts",
   "source": "./src/index.ts",
   "publishConfig": {
     "access": "public"

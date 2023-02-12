@@ -1,8 +1,8 @@
-import ChainedError from 'typescript-chained-error';
+import ChainedError from "typescript-chained-error";
 
-import { findEntityConfigurationEntry, findValueMapper } from './configs';
-import { Context, ContextFrom, ContextTo, Format } from './types';
-import { stringValueMapper } from './scalarMappers';
+import { findEntityConfigurationEntry, findValueMapper } from "./configs";
+import { Context, ContextFrom, ContextTo, Format } from "./types";
+import { stringValueMapper } from "./scalarMappers";
 
 /**
  * Some rules of thumb:
@@ -41,7 +41,7 @@ class BaseContext implements Context {
   }
 
   getPath(): string {
-    return `${this.prefix}.${this._path.join('.')}`;
+    return `${this.prefix}.${this._path.join(".")}`;
   }
 
   getTime(): number {
@@ -83,12 +83,12 @@ function to(format: Format, entity: any): any {
 
 function from(format: Format, value: any): any {
   if (!value?.$type) {
-    throw new Error('No type information property is on the value from the database. Cannot rehydrate');
+    throw new Error("No type information property is on the value from the database. Cannot rehydrate");
   }
-  const ctx = new ConcreteContextFrom('', format);
+  const ctx = new ConcreteContextFrom("", format);
   const $type = stringValueMapper.from(value.$type, ctx)!;
   (ctx as any).prefix = $type;
-  const config = findEntityConfigurationEntry($type.split('@')[0]);
+  const config = findEntityConfigurationEntry($type.split("@")[0]);
   if (!config) {
     throw new Error(`Mapper is not configured for "${$type}"`);
   }
@@ -106,13 +106,13 @@ function from(format: Format, value: any): any {
 }
 
 const DataMapper = {
-  toDb: to.bind(null, 'DB'),
+  toDb: to.bind(null, "DB"),
   fromDb<T>(dbValue: any): T {
-    return from('DB', dbValue);
+    return from("DB", dbValue);
   },
-  toDto: to.bind(null, 'DTO'),
+  toDto: to.bind(null, "DTO"),
   fromDto<T>(value: any): T {
-    return from('DTO', value);
+    return from("DTO", value);
   },
 };
 
