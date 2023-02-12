@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json.schemastore.org/tsconfig",
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@pioneer32/dynamodb-es-orm",
   "version": "0.0.1-alpha.5",
   "main": "index.js",
