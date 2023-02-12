@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/tsconfig",
   "name": "@pioneer32/dynamodb-identity-mapper",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "main": "index.js",
   "license": "MIT",
   "author": "Vlad Churakov <vlchrkv@gmail.com>",
@@ -12,7 +12,7 @@
     "test:watch": "FORCE_COLOR=1 jest --watch"
   },
   "dependencies": {
-    "@pioneer32/data-mapper": "^0.0.1-alpha.1",
+    "@pioneer32/data-mapper": "^0.0.1-alpha.2",
     "typescript-chained-error": "1.6.0"
   },
   "devDependencies": {
