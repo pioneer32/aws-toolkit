@@ -1,14 +1,6 @@
-import DataMapper, {
-  Attribute,
-  AttributeFromParam,
-  Collection,
-  CollectionFromParam,
-  Dictionary,
-  DictionaryFromParam,
-  Entity,
-  ScalarMappers,
-  Value,
-} from "./index";
+import DataMapper, { ScalarMappers } from "../src/index";
+
+import { Attribute, AttributeFromParam, Collection, CollectionFromParam, Dictionary, DictionaryFromParam, Entity, Value } from "../src/decorators";
 
 // TODO: Cover decorators with tests Especially how they enforce invariants
 // TODO: Cover exported ScalarMapper
