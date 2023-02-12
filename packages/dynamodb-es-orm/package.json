@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/tsconfig",
   "name": "@pioneer32/dynamodb-es-orm",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "main": "index.js",
   "license": "MIT",
   "author": "Vlad Churakov <vlchrkv@gmail.com>",
@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.47.0",
-    "@pioneer32/data-mapper": "^0.0.1-alpha.2",
-    "@pioneer32/dynamodb-identity-mapper": "^0.0.1-alpha.2",
+    "@pioneer32/data-mapper": "^0.0.1-alpha.3",
+    "@pioneer32/dynamodb-identity-mapper": "^0.0.1-alpha.3",
     "typescript-chained-error": "1.6.0"
   },
   "engines": {
