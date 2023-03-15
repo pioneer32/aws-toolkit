@@ -1,4 +1,4 @@
-export type Format = 'DB' | 'DTO';
+export type Format = "DB" | "DTO";
 
 export interface Context {
   /**
@@ -23,14 +23,22 @@ export interface ContextFrom extends Context {
 }
 
 export type MapperFunction<F, T, C> = (src: F, context: C) => T;
-export type Mapper<V, DB> = {
-  to: MapperFunction<V, DB, ContextTo>;
-  from: MapperFunction<DB, V, ContextFrom>;
-};
+export interface Mapper<INT, EXT> {
+  to: MapperFunction<INT, EXT, ContextTo>;
+  from: MapperFunction<EXT, INT, ContextFrom>;
+}
+
+export interface PublicMapper<INT, DB, DTO> extends Mapper<INT, DB | DTO> {
+  toDb: (value: INT) => DB;
+  toDto: (value: INT) => DTO;
+  fromDb: (dbValue: DB) => INT;
+  fromDto: (dtoValue: DTO) => INT;
+}
+
 export type ChainableMapperFunction<F, T, C> = (src: F, prevMapperResult: T, context: C) => T;
-export type ChainableMapper<V, DB> = {
-  to: ChainableMapperFunction<V, DB, ContextTo>;
-  from: ChainableMapperFunction<DB, V, ContextFrom>;
+export type ChainableMapper<INT, EXT> = {
+  to: ChainableMapperFunction<INT, EXT, ContextTo>;
+  from: ChainableMapperFunction<EXT, INT, ContextFrom>;
 };
 
 export type EntityMapperConfig = ChainableMapper<any, any>;
@@ -50,3 +58,15 @@ export type Class<E = any> = (new (...args: any[]) => E) | Function; // Stupid T
 export type NullableDbString = { S: string } | { NULL: true };
 export type NullableDbNumber = { N: string } | { NULL: true };
 export type NullableDbBool = { BOOL: boolean } | { NULL: true };
+
+export interface ScalarMapper<INT, EXT> {
+  to: MapperFunction<INT, EXT, Pick<ContextTo, "target">>;
+  from: MapperFunction<EXT, INT, Pick<ContextFrom, "source">>;
+}
+
+export interface PublicScalarMapper<INT, DB, DTO> extends ScalarMapper<INT, DB | DTO> {
+  toDb: (value: INT) => DB;
+  toDto: (value: INT) => DTO;
+  fromDb: (dbValue: DB) => INT;
+  fromDto: (dtoValue: DTO) => INT;
+}
