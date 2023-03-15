@@ -55,9 +55,15 @@ export interface ValueInternalConfig extends ValueMapperConfig {
 
 export type Class<E = any> = (new (...args: any[]) => E) | Function; // Stupid TS doesn't let me pass a class, when its constructor is private....
 
-export type NullableDbString = { S: string } | { NULL: true };
-export type NullableDbNumber = { N: string } | { NULL: true };
-export type NullableDbBool = { BOOL: boolean } | { NULL: true };
+export type DbString = { S: string };
+export type DbNull = { NULL: true };
+export type NullableDbString = DbString | DbNull;
+export type DbNumber = { N: string };
+export type NullableDbNumber = DbNumber | DbNull;
+export type DbBool = { BOOL: boolean };
+export type NullableDbBool = DbBool | DbNull;
+export type DbMap = { M: any };
+export type NullableDbMap = DbMap | DbNull;
 
 export interface ScalarMapper<INT, EXT> {
   to: MapperFunction<INT, EXT, Pick<ContextTo, "target">>;

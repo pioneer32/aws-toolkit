@@ -1,7 +1,8 @@
 import DataMapper from "./DataMapper";
 import { anyValueMapper, booleanValueMapper, numberValueMapper, stringValueMapper } from "./scalarMappers";
 import { findEntityConfigurationEntry, getDictionaryMapperInstance } from "./configs";
-import { NullableDbBool, NullableDbNumber, NullableDbString, PublicScalarMapper } from "./types";
+import { Class, NullableDbBool, NullableDbMap, NullableDbNumber, NullableDbString, PublicMapper, PublicScalarMapper } from "./types";
+import { ConcreteContextFrom, ConcreteContextTo } from "./context";
 
 export const ScalarMappers = {
   string: {
@@ -34,9 +35,25 @@ export const ScalarMappers = {
   } as PublicScalarMapper<string | number | boolean | null, NullableDbString | NullableDbNumber | NullableDbBool, string | number | boolean | null>,
 };
 
+const publicDictionaryMappers = new WeakMap<any, PublicMapper<Map<string, any> | null, NullableDbMap, any>>();
+
 export const Config = {
   findEntityConfigurationEntry,
-  getDictionaryMapperInstance,
+  getDictionaryMapperInstance<E>(valueType: Class<E>): PublicMapper<Map<string, E> | null, NullableDbMap, any> {
+    if (publicDictionaryMappers.has(valueType)) {
+      return publicDictionaryMappers.get(valueType)!;
+    }
+    const mapper = getDictionaryMapperInstance<E>(valueType);
+    const publicMapper = {
+      ...mapper,
+      toDb: (v: Map<string, E>) => mapper.to(v, new ConcreteContextTo("", "DB")),
+      fromDb: (v: any): Map<string, E> | null => mapper.from(v, new ConcreteContextFrom("", "DB")),
+      toDto: (v: Map<string, E>) => mapper.to(v, new ConcreteContextTo("", "DTO")),
+      fromDto: (v: any): Map<string, E> | null => mapper.from(v, new ConcreteContextFrom("", "DTO")),
+    } as PublicMapper<Map<string, E> | null, NullableDbMap, any>;
+    publicDictionaryMappers.set(valueType, publicMapper);
+    return publicMapper;
+  },
 };
 
 export { type ChainableMapper } from "./types";

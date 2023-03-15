@@ -86,11 +86,11 @@ function getCollectionMapperInstance(elementType: Class): Mapper<any, any> {
   return mapper;
 }
 
-export function getDictionaryMapperInstance(valueType: Class): Mapper<any, any> {
+export function getDictionaryMapperInstance<E>(valueType: Class<E>): Mapper<Map<string, E> | null, any> {
   if (dictionaryMappers.has(valueType)) {
     return dictionaryMappers.get(valueType)!;
   }
-  const mapper = composeMapMapper(findValueMapper(valueType)!);
+  const mapper = composeMapMapper<E>(findValueMapper(valueType)!);
   dictionaryMappers.set(valueType, mapper);
   return mapper;
 }
