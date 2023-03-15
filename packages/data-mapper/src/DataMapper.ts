@@ -64,6 +64,8 @@ class ConcreteContextTo extends BaseContext implements ContextTo {
 function to(format: Format, entity: any): any {
   const $type = entity.constructor.name;
   const config = findEntityConfigurationEntry($type);
+  // TODO Add checks and throw an error (with a meaningful message) if entity is a value object (Value)
+  // It's fine and we can map a Value Object into a DB/DTO value, but it's not possible to reverse it - a scalar value (in which mapping a value object results) doesn't contain any information about what constructor to use to rehydrate it
   if (!config) {
     throw new Error(`Mapper is not configured for "${entity.constructor.name}"`);
   }

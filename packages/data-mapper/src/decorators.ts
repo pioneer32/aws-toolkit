@@ -1,18 +1,25 @@
-import { configureAttribute, configureAttributeWithCustomMapper, configureCollectionAttribute, configureDictionaryAttribute, configureEntity, configureValue } from './configs';
-import { EntityMapperConfig, ValueMapperConfig } from './types';
+import {
+  configureAttribute,
+  configureAttributeWithCustomMapper,
+  configureCollectionAttribute,
+  configureDictionaryAttribute,
+  configureEntity,
+  configureValue,
+} from "./configs";
+import { EntityMapperConfig, ValueMapperConfig } from "./types";
 
 // TODO: Support Sets and Objects
 // TODO: Add a way to map "inlined" entities when the parent entity is annotated with @Mapping (to and from)
 
 function toValidPropertyName(propertyName: any, fullPropertyName: string, suggestion: string): string {
-  if (typeof propertyName === 'symbol' || !propertyName) {
+  if (typeof propertyName === "symbol" || !propertyName) {
     throw new Error(`Could not determine property name for ${fullPropertyName}.\nPlease set it explicitly via ${suggestion}`);
   }
   return propertyName as string;
 }
 
 function toValidDbName(dbName: any, fullPropertyName: string, suggestion: string): string {
-  if (typeof dbName === 'symbol' || !dbName) {
+  if (typeof dbName === "symbol" || !dbName) {
     throw new Error(`Could not determine database attribute name for ${fullPropertyName}.\nPlease set it explicitly via ${suggestion}`);
   }
   return dbName as string;
@@ -27,7 +34,7 @@ function assertTypeIsSupported(type: any, fullPropertyName: string, decoratorNam
         `Please set it explicitly via ${suggestion}`
     );
   }
-  if (typeof type === 'object' && type !== null) {
+  if (typeof type === "object" && type !== null) {
     const proto = Object.getPrototypeOf(type);
     if (proto === Object.prototype || proto === null) {
       throw new Error(
@@ -43,9 +50,13 @@ export function Dictionary(valueType: any): PropertyDecorator;
 export function Dictionary(dbName: string, valueType: any): PropertyDecorator;
 export function Dictionary(valueTypeOrDbName: any, valueType?: any): PropertyDecorator {
   return function (target, propertyKey) {
-    const type = Reflect.getMetadata('design:type', target, propertyKey);
+    const type = Reflect.getMetadata("design:type", target, propertyKey);
     const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Dictionary({propertyName:"propertyName"}) [TODO]');
-    const dbName = toValidDbName(valueTypeOrDbName && valueType ? valueTypeOrDbName : propertyName, `${target.constructor.name}.${propertyName}`, 'either @Dictionary("name") or @Dictionary({name:"name"}) [TODO]');
+    const dbName = toValidDbName(
+      valueTypeOrDbName && valueType ? valueTypeOrDbName : propertyName,
+      `${target.constructor.name}.${propertyName}`,
+      'either @Dictionary("name") or @Dictionary({name:"name"}) [TODO]'
+    );
 
     // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
     if (type === String || type === Number || type === Boolean || type === Array || type == Set) {
@@ -66,9 +77,13 @@ export function DictionaryFromParam(valueTypeOrDbName: string, valueType?: any):
       .split(/\s*,\s*/)
       [parameterIndex].split(/\s*=/)[0];
 
-    const type = Reflect.getMetadata('design:paramtypes', target, propertyKey)[parameterIndex];
+    const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
     const propertyName = toValidPropertyName(paramName, target.name, '@DictionaryFromParam("dbAttributeName", "propertyName")');
-    const dbName = toValidDbName(valueType && valueTypeOrDbName ? valueTypeOrDbName : propertyName, `${target.name}.${propertyName}`, '@DictionaryFromParam("name")');
+    const dbName = toValidDbName(
+      valueType && valueTypeOrDbName ? valueTypeOrDbName : propertyName,
+      `${target.name}.${propertyName}`,
+      '@DictionaryFromParam("name")'
+    );
 
     // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
     if (type === String || type === Number || type === Boolean || type === Array || type == Set) {
@@ -83,9 +98,13 @@ export function Collection(elementType: any): PropertyDecorator;
 export function Collection(dbName: string, elementType: any): PropertyDecorator;
 export function Collection(elementTypeOrDbName: any, elementType?: any): PropertyDecorator {
   return function (target, propertyKey) {
-    const type = Reflect.getMetadata('design:type', target, propertyKey);
+    const type = Reflect.getMetadata("design:type", target, propertyKey);
     const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Collection({propertyName:"propertyName"})');
-    const dbName = toValidDbName(elementTypeOrDbName && elementType ? elementTypeOrDbName : propertyName, `${target.constructor.name}.${propertyName}`, '@Collection({propertyName:"propertyName"}) [TODO]');
+    const dbName = toValidDbName(
+      elementTypeOrDbName && elementType ? elementTypeOrDbName : propertyName,
+      `${target.constructor.name}.${propertyName}`,
+      '@Collection({propertyName:"propertyName"}) [TODO]'
+    );
 
     // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
     if (type === String || type === Number || type === Boolean || type === Map) {
@@ -107,8 +126,12 @@ export function CollectionFromParam(elementTypeOrDbName: string, elementType?: a
       [parameterIndex].split(/\s*=/)[0];
 
     const propertyName = toValidPropertyName(paramName, target.name, '@AttributeFromParam("dbAttributeName", "propertyName")');
-    const type = Reflect.getMetadata('design:paramtypes', target, propertyKey)[parameterIndex];
-    const dbName = toValidDbName(elementType && elementTypeOrDbName ? elementTypeOrDbName : propertyName, `${target.name}.${propertyName}`, '@AttributeFromParam("name")');
+    const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
+    const dbName = toValidDbName(
+      elementType && elementTypeOrDbName ? elementTypeOrDbName : propertyName,
+      `${target.name}.${propertyName}`,
+      '@AttributeFromParam("name")'
+    );
 
     // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
     if (type === String || type === Number || type === Boolean || type === Map) {
@@ -136,10 +159,10 @@ export function Attribute(nameOrMapperOrConfig?: string | AttributeConfig | Valu
       configureAttributeWithCustomMapper(target.constructor, nameOrMapperOrConfig as ValueMapperConfig);
       return;
     }
-    const type = (typeof nameOrMapperOrConfig !== 'string' ? nameOrMapperOrConfig?.type : undefined) || Reflect.getMetadata('design:type', target, propertyKey);
+    const type = (typeof nameOrMapperOrConfig !== "string" ? nameOrMapperOrConfig?.type : undefined) || Reflect.getMetadata("design:type", target, propertyKey);
     const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Attribute({propertyName:"propertyName"})');
     const dbName = toValidDbName(
-      typeof nameOrMapperOrConfig === 'string' ? nameOrMapperOrConfig : nameOrMapperOrConfig?.name || propertyName,
+      typeof nameOrMapperOrConfig === "string" ? nameOrMapperOrConfig : nameOrMapperOrConfig?.name || propertyName,
       `${target.constructor.name}.${propertyName}`,
       'either @Attribute("name") or @Attribute({name:"name"})'
     );
@@ -175,9 +198,11 @@ export function AttributeFromParam(nameOrMapperOrConfig?: string | AttributeConf
       [parameterIndex].split(/\s*=/)[0];
 
     const propertyName = toValidPropertyName(paramName, target.name, '@AttributeFromParam({propertyName:"propertyName"})');
-    const type = (typeof nameOrMapperOrConfig !== 'string' ? nameOrMapperOrConfig?.type : undefined) || Reflect.getMetadata('design:paramtypes', target, propertyKey)[parameterIndex];
+    const type =
+      (typeof nameOrMapperOrConfig !== "string" ? nameOrMapperOrConfig?.type : undefined) ||
+      Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
     const dbName = toValidDbName(
-      typeof nameOrMapperOrConfig === 'string' ? nameOrMapperOrConfig : nameOrMapperOrConfig?.name || propertyName,
+      typeof nameOrMapperOrConfig === "string" ? nameOrMapperOrConfig : nameOrMapperOrConfig?.name || propertyName,
       `${target.constructor.name}.${propertyName}`,
       'either @AttributeFromParam("name") or @AttributeFromParam({name:"name"})'
     );
@@ -204,6 +229,9 @@ export function Entity(mapper?: EntityMapperConfig): ClassDecorator {
   };
 }
 
+/**
+ * @desc Used to decorate Value Objects. Mapping a value object into a db/dto value always results in a scalar value (and vice-versa)
+ */
 export function Value(): ClassDecorator;
 export function Value(config: Partial<ValueMapperConfig>): ClassDecorator;
 export function Value(config?: Partial<ValueMapperConfig>): ClassDecorator {

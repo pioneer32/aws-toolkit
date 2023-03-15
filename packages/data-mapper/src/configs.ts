@@ -86,7 +86,7 @@ function getCollectionMapperInstance(elementType: Class): Mapper<any, any> {
   return mapper;
 }
 
-function getDictionaryMapperInstance(valueType: Class): Mapper<any, any> {
+export function getDictionaryMapperInstance(valueType: Class): Mapper<any, any> {
   if (dictionaryMappers.has(valueType)) {
     return dictionaryMappers.get(valueType)!;
   }

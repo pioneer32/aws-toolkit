@@ -1,6 +1,6 @@
 import DataMapper from "./DataMapper";
 import { anyValueMapper, booleanValueMapper, numberValueMapper, stringValueMapper } from "./scalarMappers";
-import { findEntityConfigurationEntry } from "./configs";
+import { findEntityConfigurationEntry, getDictionaryMapperInstance } from "./configs";
 
 export const ScalarMappers = {
   string: stringValueMapper,
@@ -11,6 +11,7 @@ export const ScalarMappers = {
 
 export const Config = {
   findEntityConfigurationEntry,
+  getDictionaryMapperInstance,
 };
 
 export { type ChainableMapper } from "./types";
