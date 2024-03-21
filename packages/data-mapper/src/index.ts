@@ -1,6 +1,6 @@
 import DataMapper from "./DataMapper";
 import { anyValueMapper, booleanValueMapper, numberValueMapper, stringValueMapper } from "./scalarMappers";
-import { findEntityConfigurationEntry, getDictionaryMapperInstance } from "./configs";
+import { findEntityConfigurationEntry, getOrComposeDictionaryMapperInstance } from "./configs";
 import { Class, NullableDbBool, NullableDbMap, NullableDbNumber, NullableDbString, PublicMapper, PublicScalarMapper } from "./types";
 import { ConcreteContextFrom, ConcreteContextTo } from "./context";
 
@@ -43,7 +43,7 @@ export const Config = {
     if (publicDictionaryMappers.has(valueType)) {
       return publicDictionaryMappers.get(valueType)!;
     }
-    const mapper = getDictionaryMapperInstance<E>(valueType);
+    const mapper = getOrComposeDictionaryMapperInstance<E>(valueType);
     const publicMapper = {
       ...mapper,
       toDb: (v: Map<string, E>) => mapper.to(v, new ConcreteContextTo("", "DB")),

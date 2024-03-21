@@ -1,7 +1,7 @@
 import {
   configureAttribute,
   configureAttributeWithCustomMapper,
-  configureCollectionAttribute,
+  configureAttrList,
   configureDictionaryAttribute,
   configureEntity,
   configureValue,
@@ -96,7 +96,7 @@ export function CollectionFromParam(elementTypeOrDbName: string, elementType?: a
       throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\n@CollectionFromParam should only be used with Array only`);
     }
 
-    configureCollectionAttribute(target, propertyName!, dbName, elementType || elementTypeOrDbName);
+    configureAttrList(target, propertyName!, dbName, elementType || elementTypeOrDbName);
   };
 }
 
@@ -157,7 +157,7 @@ export namespace Attr {
         throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@Attr.List should only be used with Array only`);
       }
 
-      configureCollectionAttribute(target.constructor, propertyName, dbName, elementType || elementTypeOrDbName);
+      configureAttrList(target.constructor, propertyName, dbName, elementType || elementTypeOrDbName);
     };
   }
 

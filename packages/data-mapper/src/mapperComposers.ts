@@ -83,7 +83,7 @@ export function chainMapper(mapper: ChainableMapper<any, any>, nextMapper: Parti
   }
 }
 
-export function composeCollectionMapper<V>(elementMapper: Mapper<V, any>): Mapper<V[], any> {
+export function composeListMapper<V>(elementMapper: Mapper<V, any>): Mapper<V[], any> {
   const { to, from } = elementMapper;
   return {
     to: (src, ctx) => {

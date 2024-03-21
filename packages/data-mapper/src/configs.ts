@@ -1,6 +1,6 @@
 import {
   chainMapper,
-  composeCollectionMapper,
+  composeListMapper,
   composeEntityAttributeMapper,
   composeMapMapper,
   composeValueMapperForEntity,
@@ -23,18 +23,21 @@ export function findEntityConfigurationEntry(className: string): EntityInternalC
   return entityConfigsByClassName.get(className);
 }
 
-function getEntityConfigurationEntry(entityType: Class): EntityInternalConfig {
+function getOrComposeEntityConfigurationEntry(entityType: Class): EntityInternalConfig {
   const className = entityType.name;
   // TODO Validate className?
   let entry = findEntityConfigurationEntry(className);
   if (entry) {
     if (entry.class !== entityType) {
-      throw new Error(`Two classes with the same name are found: ${entityType.name}`);
+      throw new Error(`DD001: Two classes with the same name are found: ${entityType.name}`);
     }
     return entry;
   }
   const parent = Object.getPrototypeOf(entityType);
-  entry = { ...(parent && parent.name && parent.name !== "Object" ? getEntityConfigurationEntry(parent) : {}), class: entityType } as EntityInternalConfig;
+  entry = {
+    ...(parent && parent.name && parent.name !== "Object" ? getOrComposeEntityConfigurationEntry(parent) : {}),
+    class: entityType,
+  } as EntityInternalConfig;
   entityConfigsByClassName.set(className, entry);
   valueMappers.set(entityType, composeValueMapperForEntity(entry));
   return entry;
@@ -50,7 +53,7 @@ function getValueConfigurationEntry(valueType: Class): ValueInternalConfig {
   let entry = findValueConfigurationEntry(className);
   if (entry) {
     if (entry.class !== valueType) {
-      throw new Error(`Two classes with the same name are found: ${valueType.name}`);
+      throw new Error(`DD002: Two classes with the same name are found: ${valueType.name}`);
     }
     return entry;
   }
@@ -72,21 +75,23 @@ export function configureValue(entityType: Class, configEntry: Partial<ValueMapp
   }
 }
 
-function getCollectionMapperInstance(elementType: Class): Mapper<any, any> {
+function getOrComposeListMapperInstance(elementType: Class): Mapper<any, any> {
   if (collectionMappers.has(elementType)) {
     return collectionMappers.get(elementType)!;
   }
   const valueMapper = findValueMapper(elementType);
   if (!valueMapper) {
-    throw new Error(`No mapper is found for ${elementType.name ? elementType.name : elementType}. If it is an Entity or Value, please annotate it first`);
+    throw new Error(
+      `DD003: No mapper is found for ${elementType.name ? elementType.name : elementType}. If it is an Entity or Value, please annotate it first`
+    );
   }
 
-  const mapper = composeCollectionMapper(valueMapper);
+  const mapper = composeListMapper(valueMapper);
   collectionMappers.set(elementType, mapper);
   return mapper;
 }
 
-export function getDictionaryMapperInstance<E>(valueType: Class<E>): Mapper<Map<string, E> | null, any> {
+export function getOrComposeDictionaryMapperInstance<E>(valueType: Class<E>): Mapper<Map<string, E> | null, any> {
   if (dictionaryMappers.has(valueType)) {
     return dictionaryMappers.get(valueType)!;
   }
@@ -100,38 +105,37 @@ function assertInvariantsForEntityMet(_entityType: Class, _configEntry: EntityMa
 }
 
 export function configureEntity(entityType: Class, configEntry: EntityMapperConfig) {
-  const existingConfigEntry = getEntityConfigurationEntry(entityType);
+  const existingConfigEntry = getOrComposeEntityConfigurationEntry(entityType);
   assertInvariantsForEntityMet(entityType, configEntry, existingConfigEntry);
   if ((configEntry as any).to || (configEntry as any).from) {
     chainMapper(existingConfigEntry, configEntry);
   }
 }
 
-export function configureAttribute(entityType: Class, propertyName: string, dbName: string, type: Class) {
-  const configEntry = getEntityConfigurationEntry(entityType);
-  const valueMapper = findValueMapper(type);
-  if (!valueMapper) {
-    throw new Error(`No mapper is found for ${type.name ? type.name : type}. If it is an Entity or Value, please annotate it first`);
-  }
-  const attributeMapper = composeEntityAttributeMapper(propertyName, dbName, valueMapper);
-  chainMapper(configEntry, attributeMapper);
+export function configureAttributeWithCustomMapper(entityType: Class, mapper: ValueMapperConfig) {
+  const configEntry = getOrComposeEntityConfigurationEntry(entityType);
+  chainMapper(configEntry, mapper);
 }
 
-export function configureAttributeWithCustomMapper(entityType: Class, customMapper: ValueMapperConfig) {
-  const configEntry = getEntityConfigurationEntry(entityType);
-  chainMapper(configEntry, customMapper);
+export function configureAttributeWithValueMapper(entityType: Class, propertyName: string | Symbol, dbName: string, valueMapper: Mapper<any, any>) {
+  const mapper = composeEntityAttributeMapper("" + propertyName, dbName, valueMapper);
+  return configureAttributeWithCustomMapper(entityType, mapper);
+}
+
+export function configureAttribute(entityType: Class, propertyName: string | Symbol, dbName: string, type: Class) {
+  const valueMapper = findValueMapper(type);
+  if (!valueMapper) {
+    throw new Error(`DD004: No mapper is found for ${type.name ? type.name : type}. If it is an Entity or Value, please annotate it first`);
+  }
+  return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
 }
 
 export function configureDictionaryAttribute(entityType: Class, propertyName: string | Symbol, dbName: string, valueType: Class) {
-  const configEntry = getEntityConfigurationEntry(entityType);
-  let mapper = getDictionaryMapperInstance(valueType);
-  const attributeMapper = composeEntityAttributeMapper("" + propertyName, dbName, mapper);
-  chainMapper(configEntry, attributeMapper);
+  let valueMapper = getOrComposeDictionaryMapperInstance(valueType);
+  return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
 }
 
-export function configureCollectionAttribute(entityType: Class, propertyName: string | Symbol, dbName: string, elementType: Class) {
-  const configEntry = getEntityConfigurationEntry(entityType);
-  let mapper = getCollectionMapperInstance(elementType);
-  const attributeMapper = composeEntityAttributeMapper("" + propertyName, dbName, mapper);
-  chainMapper(configEntry, attributeMapper);
+export function configureAttrList(entityType: Class, propertyName: string | Symbol, dbName: string, elementType: Class) {
+  let valueMapper = getOrComposeListMapperInstance(elementType);
+  return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
 }
