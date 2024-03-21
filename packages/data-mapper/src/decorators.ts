@@ -46,27 +46,6 @@ function assertTypeIsSupported(type: any, fullPropertyName: string, decoratorNam
   }
 }
 
-export function Dictionary(valueType: any): PropertyDecorator;
-export function Dictionary(dbName: string, valueType: any): PropertyDecorator;
-export function Dictionary(valueTypeOrDbName: any, valueType?: any): PropertyDecorator {
-  return function (target, propertyKey) {
-    const type = Reflect.getMetadata("design:type", target, propertyKey);
-    const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Dictionary({propertyName:"propertyName"}) [TODO]');
-    const dbName = toValidDbName(
-      valueTypeOrDbName && valueType ? valueTypeOrDbName : propertyName,
-      `${target.constructor.name}.${propertyName}`,
-      'either @Dictionary("name") or @Dictionary({name:"name"}) [TODO]'
-    );
-
-    // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
-    if (type === String || type === Number || type === Boolean || type === Array || type == Set) {
-      throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@Dictionary should only be used with Map`);
-    }
-
-    configureDictionaryAttribute(target.constructor, propertyName, dbName, valueType || valueTypeOrDbName);
-  };
-}
-
 export function DictionaryFromParam(valueType: any): ParameterDecorator;
 export function DictionaryFromParam(valueTypeOrDbName: string, valueType: any): ParameterDecorator;
 export function DictionaryFromParam(valueTypeOrDbName: string, valueType?: any): ParameterDecorator {
@@ -91,27 +70,6 @@ export function DictionaryFromParam(valueTypeOrDbName: string, valueType?: any):
     }
 
     configureDictionaryAttribute(target, propertyName, dbName, valueType || valueTypeOrDbName);
-  };
-}
-
-export function Collection(elementType: any): PropertyDecorator;
-export function Collection(dbName: string, elementType: any): PropertyDecorator;
-export function Collection(elementTypeOrDbName: any, elementType?: any): PropertyDecorator {
-  return function (target, propertyKey) {
-    const type = Reflect.getMetadata("design:type", target, propertyKey);
-    const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Collection({propertyName:"propertyName"})');
-    const dbName = toValidDbName(
-      elementTypeOrDbName && elementType ? elementTypeOrDbName : propertyName,
-      `${target.constructor.name}.${propertyName}`,
-      '@Collection({propertyName:"propertyName"}) [TODO]'
-    );
-
-    // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
-    if (type === String || type === Number || type === Boolean || type === Map) {
-      throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@Collection should only be used with Array only`);
-    }
-
-    configureCollectionAttribute(target.constructor, propertyName, dbName, elementType || elementTypeOrDbName);
   };
 }
 
@@ -149,25 +107,25 @@ type AttributeConfig = {
 
 const isCustomMapper = (val: any): val is ValueMapperConfig => !!((val as ValueMapperConfig | undefined)?.to && (val as ValueMapperConfig | undefined)?.from);
 
-export function Attribute(): PropertyDecorator;
-export function Attribute(name: string): PropertyDecorator;
-export function Attribute(config: AttributeConfig): PropertyDecorator;
-export function Attribute(mapper: ValueMapperConfig): PropertyDecorator;
-export function Attribute(nameOrMapperOrConfig?: string | AttributeConfig | ValueMapperConfig): PropertyDecorator {
+export function Attr(): PropertyDecorator;
+export function Attr(name: string): PropertyDecorator;
+export function Attr(config: AttributeConfig): PropertyDecorator;
+export function Attr(mapper: ValueMapperConfig): PropertyDecorator;
+export function Attr(nameOrMapperOrConfig?: string | AttributeConfig | ValueMapperConfig): PropertyDecorator {
   return function (target, propertyKey) {
     if (isCustomMapper(nameOrMapperOrConfig)) {
       configureAttributeWithCustomMapper(target.constructor, nameOrMapperOrConfig as ValueMapperConfig);
       return;
     }
     const type = (typeof nameOrMapperOrConfig !== "string" ? nameOrMapperOrConfig?.type : undefined) || Reflect.getMetadata("design:type", target, propertyKey);
-    const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Attribute({propertyName:"propertyName"})');
+    const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Attr({propertyName:"propertyName"})');
     const dbName = toValidDbName(
       typeof nameOrMapperOrConfig === "string" ? nameOrMapperOrConfig : nameOrMapperOrConfig?.name || propertyName,
       `${target.constructor.name}.${propertyName}`,
-      'either @Attribute("name") or @Attribute({name:"name"})'
+      'either @Attr("name") or @Attr({name:"name"})'
     );
 
-    assertTypeIsSupported(type, `${target.constructor.name}.${propertyName}`, `@Attribute`, `@Attribute({type:Type})`);
+    assertTypeIsSupported(type, `${target.constructor.name}.${propertyName}`, `@Attr`, `@Attr({type:Type})`);
 
     if (type === Array || type === Set) {
       throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\nPlease consider using @Collection for Array and Set instead`);
@@ -179,6 +137,50 @@ export function Attribute(nameOrMapperOrConfig?: string | AttributeConfig | Valu
 
     configureAttribute(target.constructor, propertyName, dbName, type);
   };
+}
+
+export namespace Attr {
+  export function List(elementType: any): PropertyDecorator;
+  export function List(dbName: string, elementType: any): PropertyDecorator;
+  export function List(elementTypeOrDbName: any, elementType?: any): PropertyDecorator {
+    return function (target, propertyKey) {
+      const type = Reflect.getMetadata("design:type", target, propertyKey);
+      const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Attr.List({propertyName:"propertyName"})');
+      const dbName = toValidDbName(
+        elementTypeOrDbName && elementType ? elementTypeOrDbName : propertyName,
+        `${target.constructor.name}.${propertyName}`,
+        '@Attr.List({propertyName:"propertyName"}) [TODO]'
+      );
+
+      // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
+      if (type === String || type === Number || type === Boolean || type === Map) {
+        throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@Attr.List should only be used with Array only`);
+      }
+
+      configureCollectionAttribute(target.constructor, propertyName, dbName, elementType || elementTypeOrDbName);
+    };
+  }
+
+  export function Dictionary(valueType: any): PropertyDecorator;
+  export function Dictionary(dbName: string, valueType: any): PropertyDecorator;
+  export function Dictionary(valueTypeOrDbName: any, valueType?: any): PropertyDecorator {
+    return function (target, propertyKey) {
+      const type = Reflect.getMetadata("design:type", target, propertyKey);
+      const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Dictionary({propertyName:"propertyName"}) [TODO]');
+      const dbName = toValidDbName(
+        valueTypeOrDbName && valueType ? valueTypeOrDbName : propertyName,
+        `${target.constructor.name}.${propertyName}`,
+        'either @Dictionary("name") or @Dictionary({name:"name"}) [TODO]'
+      );
+
+      // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
+      if (type === String || type === Number || type === Boolean || type === Array || type == Set) {
+        throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@Dictionary should only be used with Map`);
+      }
+
+      configureDictionaryAttribute(target.constructor, propertyName, dbName, valueType || valueTypeOrDbName);
+    };
+  }
 }
 
 export function AttributeFromParam(): ParameterDecorator;

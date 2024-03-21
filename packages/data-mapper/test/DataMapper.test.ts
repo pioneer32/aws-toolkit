@@ -1,12 +1,12 @@
 import DataMapper, { ScalarMappers } from "../src/index";
 
-import { Attribute, AttributeFromParam, Collection, CollectionFromParam, Dictionary, DictionaryFromParam, Entity, Value } from "../src";
+import { Attr, AttributeFromParam, CollectionFromParam, DictionaryFromParam, Entity, Value } from "../src";
 
 // TODO: Cover decorators with tests Especially how they enforce invariants
 // TODO: Cover exported ScalarMapper
 
 class I {
-  @Attribute()
+  @Attr()
   name: string = "I am an inlined entity";
 }
 
@@ -21,26 +21,26 @@ class V {
 describe("DataMapper", () => {
   describe("Simple Attribute Mappers", () => {
     class SA11 {
-      @Attribute()
+      @Attr()
       num: number = 1;
-      @Attribute()
+      @Attr()
       bool: boolean = true;
-      @Attribute("private")
+      @Attr("private")
       private _private: string = "foo";
 
-      @Attribute()
+      @Attr()
       public optional1?: string = "bar";
-      @Attribute({ type: String })
+      @Attr({ type: String })
       protected optional2: string | undefined = undefined;
-      @Attribute({ type: Number, name: "optional3" })
+      @Attr({ type: Number, name: "optional3" })
       private _optional3: number | null = null;
-      @Attribute()
+      @Attr()
       public optional4?: string;
 
-      @Attribute()
+      @Attr()
       public entity: I = new I();
 
-      @Attribute()
+      @Attr()
       public value: V = new V("I am a value");
 
       get private(): string {
@@ -82,20 +82,20 @@ describe("DataMapper", () => {
 
   describe("Dictionary Attribute Mappers", () => {
     class DA11 {
-      @Dictionary(Number)
+      @Attr.Dictionary(Number)
       numbers: Map<string, number> = new Map([
         ["a", 1],
         ["b", 2],
       ]);
-      @Dictionary("bools", Boolean)
+      @Attr.Dictionary("bools", Boolean)
       private _bools: Map<string, boolean> = new Map([
         ["z", true],
         ["x", false],
       ]);
-      @Dictionary(Boolean)
+      @Attr.Dictionary(Boolean)
       private _optional: Map<string, number> | null = null;
 
-      @Dictionary(I)
+      @Attr.Dictionary(I)
       children: Map<string, I> = new Map([["x", new I()]]);
 
       constructor(
@@ -137,16 +137,16 @@ describe("DataMapper", () => {
 
   describe("Collection Attribute Mappers", () => {
     class CA11 {
-      @Collection(Number)
+      @Attr.List(Number)
       numbers: number[] = [1, 2];
 
-      @Collection("bools", Boolean)
+      @Attr.List("bools", Boolean)
       private _bools: boolean[] = [true, false];
 
-      @Collection(Boolean)
+      @Attr.List(Boolean)
       private _optional: number[] | null = null;
 
-      @Collection(I)
+      @Attr.List(I)
       children: I[] = [new I()];
 
       constructor(
@@ -215,18 +215,18 @@ describe("DataMapper", () => {
 
   describe("Inheritance", () => {
     class IA11 {
-      @Attribute()
+      @Attr()
       a: number = 1;
-      @Attribute()
+      @Attr()
       b: number = 1;
 
       constructor(@AttributeFromParam() public q: number, @AttributeFromParam() private w: number = 1) {}
     }
 
     abstract class IA12 extends IA11 {
-      @Attribute()
+      @Attr()
       a: number = 2;
-      @Attribute()
+      @Attr()
       c: number = 2;
 
       constructor(@AttributeFromParam() private e: number = 2) {
@@ -235,9 +235,9 @@ describe("DataMapper", () => {
     }
 
     class IA13 extends IA12 {
-      @Attribute()
+      @Attr()
       c: number = 3;
-      @Attribute("q")
+      @Attr("q")
       _q: number = 3;
     }
 
@@ -315,7 +315,7 @@ describe("DataMapper", () => {
     }
 
     abstract class C22 extends C21 {
-      @Attribute()
+      @Attr()
       public code: string;
 
       constructor(code: string) {
@@ -425,13 +425,13 @@ describe("DataMapper", () => {
 
     @Entity()
     class II12 {
-      @Attribute({ type: ID5 })
+      @Attr({ type: ID5 })
       private id = new ID5();
 
-      @Attribute("ownerId")
+      @Attr("ownerId")
       private _ownerId: ID3;
 
-      @Attribute()
+      @Attr()
       private _childId: ID4;
 
       constructor(id1: string, id2: string) {
@@ -510,7 +510,7 @@ describe("DataMapper", () => {
     })
     class C1 {
       id: string = "1";
-      @Attribute({
+      @Attr({
         to: (src, tgt, ctx) => {
           recordCall("C1.name (to)", src, tgt, ctx);
           if (ctx.level === 0 && ctx.target === "DB") {
@@ -545,7 +545,7 @@ describe("DataMapper", () => {
       },
     })
     class C2 {
-      @Attribute({ type: C1 })
+      @Attr({ type: C1 })
       child: C1 = new C1();
 
       constructor(
@@ -584,13 +584,13 @@ describe("DataMapper", () => {
       },
     })
     class C3 {
-      @Attribute()
+      @Attr()
       id: string = "3";
 
-      @Attribute({ type: C2 })
+      @Attr({ type: C2 })
       child1: C2 = new C2();
 
-      @Attribute()
+      @Attr()
       child2: C1 = new C1();
     }
 
