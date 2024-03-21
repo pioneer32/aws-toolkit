@@ -2,13 +2,14 @@ import {
   configureAttribute,
   configureAttributeWithCustomMapper,
   configureAttrList,
+  configureAttrSet,
   configureDictionaryAttribute,
   configureEntity,
   configureValue,
 } from "./configs";
 import { ChainableMapper, EntityMapperConfig, ValueMapperConfig } from "./types";
 
-// TODO: Support Sets and Objects
+// TODO: Support Objects
 // TODO: Add a way to map "inlined" entities when the parent entity is annotated with @Mapping (to and from)
 
 function toValidPropertyName(propertyName: any, fullPropertyName: string, suggestion: string): string {
@@ -158,6 +159,27 @@ export namespace Attr {
       }
 
       configureAttrList(target.constructor, propertyName, dbName, elementType || elementTypeOrDbName);
+    };
+  }
+
+  export function Set(elementType: any): PropertyDecorator;
+  export function Set(dbName: string, elementType: any): PropertyDecorator;
+  export function Set(elementTypeOrDbName: any, elementType?: any): PropertyDecorator {
+    return function (target, propertyKey) {
+      const type = Reflect.getMetadata("design:type", target, propertyKey);
+      const propertyName = toValidPropertyName(propertyKey, target.constructor.name, '@Attr.Set({propertyName:"propertyName"})');
+      const dbName = toValidDbName(
+        elementTypeOrDbName && elementType ? elementTypeOrDbName : propertyName,
+        `${target.constructor.name}.${propertyName}`,
+        '@Attr.Set({propertyName:"propertyName"}) [TODO]'
+      );
+
+      // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
+      if (type === String || type === Number || type === Boolean || type === Map) {
+        throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@Attr.Set should only be used with Array only`);
+      }
+
+      configureAttrSet(target.constructor, propertyName, dbName, elementType || elementTypeOrDbName);
     };
   }
 

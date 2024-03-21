@@ -104,6 +104,9 @@ Object {
   "_optional": Object {
     "NULL": true,
   },
+  "_optional2": Object {
+    "NULL": true,
+  },
   "bools": Object {
     "L": Array [
       Object {
@@ -114,7 +117,31 @@ Object {
       },
     ],
   },
+  "bools2": Object {
+    "L": Array [
+      Object {
+        "BOOL": true,
+      },
+      Object {
+        "BOOL": false,
+      },
+    ],
+  },
   "children": Object {
+    "L": Array [
+      Object {
+        "M": Object {
+          "$type": Object {
+            "S": "I@1",
+          },
+          "name": Object {
+            "S": "I am an inlined entity",
+          },
+        },
+      },
+    ],
+  },
+  "children2": Object {
     "L": Array [
       Object {
         "M": Object {
@@ -148,6 +175,16 @@ Object {
       },
     ],
   },
+  "numbers2": Object {
+    "L": Array [
+      Object {
+        "N": "1",
+      },
+      Object {
+        "N": "2",
+      },
+    ],
+  },
   "nums": Object {
     "L": Array [
       Object {
@@ -165,11 +202,22 @@ exports[`DataMapper Collection Attribute Mappers should map collection attribute
 Object {
   "$type": "CA11@1",
   "_optional": null,
+  "_optional2": null,
   "bools": Array [
     true,
     false,
   ],
+  "bools2": Array [
+    true,
+    false,
+  ],
   "children": Array [
+    Object {
+      "$type": "I@1",
+      "name": "I am an inlined entity",
+    },
+  ],
+  "children2": Array [
     Object {
       "$type": "I@1",
       "name": "I am an inlined entity",
@@ -180,6 +228,10 @@ Object {
     "2",
   ],
   "numbers": Array [
+    1,
+    2,
+  ],
+  "numbers2": Array [
     1,
     2,
   ],
@@ -196,7 +248,12 @@ CA11 {
     true,
     false,
   ],
+  "_bools2": Set {
+    true,
+    false,
+  },
   "_optional": null,
+  "_optional2": null,
   "_secretNums": Array [
     3,
     4,
@@ -206,6 +263,11 @@ CA11 {
       "name": "I am an inlined entity",
     },
   ],
+  "children2": Set {
+    I {
+      "name": "I am an inlined entity",
+    },
+  },
   "ids": Array [
     "1",
     "2",
@@ -214,6 +276,10 @@ CA11 {
     1,
     2,
   ],
+  "numbers2": Set {
+    1,
+    2,
+  },
 }
 `;
 
@@ -223,7 +289,12 @@ CA11 {
     true,
     false,
   ],
+  "_bools2": Set {
+    true,
+    false,
+  },
   "_optional": null,
+  "_optional2": null,
   "_secretNums": Array [
     3,
     4,
@@ -233,6 +304,11 @@ CA11 {
       "name": "I am an inlined entity",
     },
   ],
+  "children2": Set {
+    I {
+      "name": "I am an inlined entity",
+    },
+  },
   "ids": Array [
     "1",
     "2",
@@ -241,6 +317,10 @@ CA11 {
     1,
     2,
   ],
+  "numbers2": Set {
+    1,
+    2,
+  },
 }
 `;
 

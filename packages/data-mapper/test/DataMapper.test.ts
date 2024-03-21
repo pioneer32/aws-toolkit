@@ -149,6 +149,18 @@ describe("DataMapper", () => {
       @Attr.List(I)
       children: I[] = [new I()];
 
+      @Attr.Set(Number)
+      numbers2 = new Set<number>([1, 2]);
+
+      @Attr.Set("bools2", Boolean)
+      private _bools2 = new Set([true, false]);
+
+      @Attr.Set(Boolean)
+      private _optional2: Set<number> | null = null;
+
+      @Attr.Set(I)
+      children2 = new Set([new I()]);
+
       constructor(
         @CollectionFromParam(String) public ids: string[],
         @CollectionFromParam("nums", Number)

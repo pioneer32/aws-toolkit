@@ -1,5 +1,5 @@
-import { ChainableMapper, EntityInternalConfig, Mapper, NullableDbBool, NullableDbNumber, NullableDbString, ValueInternalConfig } from './types';
-import { anyValueMapper, stringValueMapper } from './scalarMappers';
+import { ChainableMapper, EntityInternalConfig, Mapper, NullableDbBool, NullableDbNumber, NullableDbString, ValueInternalConfig } from "./types";
+import { anyValueMapper, stringValueMapper } from "./scalarMappers";
 
 // TODO: Implement checking for recursive references - we don't support them and not going to support
 // TODO: Implement versioning: entities from DB should be upscalable to the current version
@@ -8,7 +8,7 @@ export function composeMapMapper<V>(mapper: Mapper<V, any>): Mapper<Map<string, 
   const { from, to } = mapper;
   return {
     from: (src, ctx) => {
-      if (ctx.source === 'DB') {
+      if (ctx.source === "DB") {
         if (src.NULL) {
           return null;
         }
@@ -34,7 +34,7 @@ export function composeMapMapper<V>(mapper: Mapper<V, any>): Mapper<Map<string, 
     },
     to: (from, ctx) => {
       if (from === null) {
-        return ctx.target === 'DB' ? { NULL: true } : null;
+        return ctx.target === "DB" ? { NULL: true } : null;
       }
       const entries = [];
       for (const [key, value] of from.entries()) {
@@ -43,7 +43,7 @@ export function composeMapMapper<V>(mapper: Mapper<V, any>): Mapper<Map<string, 
         ctx.out();
       }
       const map = Object.fromEntries(entries);
-      return ctx.target === 'DB' ? { M: map } : map;
+      return ctx.target === "DB" ? { M: map } : map;
     },
   };
 }
@@ -88,7 +88,7 @@ export function composeListMapper<V>(elementMapper: Mapper<V, any>): Mapper<V[],
   return {
     to: (src, ctx) => {
       if (src === null) {
-        return ctx.target === 'DB' ? { NULL: true } : null;
+        return ctx.target === "DB" ? { NULL: true } : null;
       }
       const items = src.map((val, idx) => {
         ctx.in(idx);
@@ -96,10 +96,10 @@ export function composeListMapper<V>(elementMapper: Mapper<V, any>): Mapper<V[],
         ctx.out();
         return v;
       });
-      return ctx.target === 'DB' ? { L: items } : items;
+      return ctx.target === "DB" ? { L: items } : items;
     },
     from: (src, ctx) => {
-      if (ctx.source === 'DB') {
+      if (ctx.source === "DB") {
         if (src.NULL) {
           return null;
         }
@@ -122,21 +122,66 @@ export function composeListMapper<V>(elementMapper: Mapper<V, any>): Mapper<V[],
   };
 }
 
+export function composeSetMapper<V>(elementMapper: Mapper<V, any>): Mapper<Set<V>, any> {
+  const { to, from } = elementMapper;
+  return {
+    to: (src, ctx) => {
+      if (src === null) {
+        return ctx.target === "DB" ? { NULL: true } : null;
+      }
+      const items = [];
+      for (let val of src.values()) {
+        ctx.in("*");
+        items.push(to(val, ctx));
+        ctx.out();
+      }
+      return ctx.target === "DB" ? { L: items } : items;
+    },
+    from: (src, ctx): any => {
+      if (ctx.source === "DB") {
+        if (src.NULL) {
+          return null;
+        }
+        return new Set(
+          src.L.map((val: any, idx: number) => {
+            ctx.in(idx);
+            const v = from(val, ctx);
+            ctx.out();
+            return v;
+          })
+        );
+      }
+      return src === null
+        ? null
+        : new Set(
+            src.map((val: any, idx: number) => {
+              ctx.in(idx);
+              const v = from(val, ctx);
+              ctx.out();
+              return v;
+            })
+          );
+    },
+  };
+}
+
 export const composeValueMapperForEntity = (entityConfig: EntityInternalConfig): Mapper<any, any> => ({
   from: (value, ctx) => {
     const instance = Object.create((entityConfig.class as any).prototype);
-    return entityConfig.from!(ctx.level > 0 && ctx.source === 'DB' ? value.M : value, instance, ctx);
+    return entityConfig.from!(ctx.level > 0 && ctx.source === "DB" ? value.M : value, instance, ctx);
   },
   to: (entity, ctx) => {
     const dbValue = {
       ...entityConfig.to!(entity, {}, ctx),
       $type: stringValueMapper.to(`${entityConfig.class.name}@${entityConfig.version || 1}`, ctx), // The version will be used for versioning (upscaling entities)
     };
-    return ctx.level > 0 && ctx.target === 'DB' ? { M: dbValue } : dbValue;
+    return ctx.level > 0 && ctx.target === "DB" ? { M: dbValue } : dbValue;
   },
 });
 
-export const composeValueMapperForValue = (valueConfig: ValueInternalConfig): Mapper<any, NullableDbString | NullableDbNumber | NullableDbBool | string | number | boolean | null> => ({
+export const composeValueMapperForValue = (
+  valueConfig: ValueInternalConfig
+): Mapper<any, NullableDbString | NullableDbNumber | NullableDbBool | string | number | boolean | null> => ({
   from: (value, ctx) => {
     const instance = Object.create((valueConfig.class as any).prototype);
     return valueConfig.from!(anyValueMapper.from(value, ctx), instance, ctx);

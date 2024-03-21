@@ -1,6 +1,7 @@
 import {
   chainMapper,
   composeListMapper,
+  composeSetMapper,
   composeEntityAttributeMapper,
   composeMapMapper,
   composeValueMapperForEntity,
@@ -11,7 +12,8 @@ import { Class, EntityInternalConfig, EntityMapperConfig, Mapper, ValueInternalC
 
 const entityConfigsByClassName = new Map<string, EntityInternalConfig>();
 const valueConfigsByClassName = new Map<string, ValueInternalConfig>();
-const collectionMappers = new WeakMap<any, Mapper<any, any>>();
+const listMappers = new WeakMap<any, Mapper<any, any>>();
+const setMappers = new WeakMap<any, Mapper<any, any>>();
 const dictionaryMappers = new WeakMap<any, Mapper<any, any>>();
 const valueMappers = new WeakMap<any, Mapper<any, any>>([
   [String, stringValueMapper],
@@ -76,8 +78,8 @@ export function configureValue(entityType: Class, configEntry: Partial<ValueMapp
 }
 
 function getOrComposeListMapperInstance(elementType: Class): Mapper<any, any> {
-  if (collectionMappers.has(elementType)) {
-    return collectionMappers.get(elementType)!;
+  if (listMappers.has(elementType)) {
+    return listMappers.get(elementType)!;
   }
   const valueMapper = findValueMapper(elementType);
   if (!valueMapper) {
@@ -87,7 +89,23 @@ function getOrComposeListMapperInstance(elementType: Class): Mapper<any, any> {
   }
 
   const mapper = composeListMapper(valueMapper);
-  collectionMappers.set(elementType, mapper);
+  listMappers.set(elementType, mapper);
+  return mapper;
+}
+
+function getOrComposeSetMapperInstance(elementType: Class): Mapper<any, any> {
+  if (setMappers.has(elementType)) {
+    return setMappers.get(elementType)!;
+  }
+  const valueMapper = findValueMapper(elementType);
+  if (!valueMapper) {
+    throw new Error(
+      `DD003: No mapper is found for ${elementType.name ? elementType.name : elementType}. If it is an Entity or Value, please annotate it first`
+    );
+  }
+
+  const mapper = composeSetMapper(valueMapper);
+  setMappers.set(elementType, mapper);
   return mapper;
 }
 
@@ -137,5 +155,10 @@ export function configureDictionaryAttribute(entityType: Class, propertyName: st
 
 export function configureAttrList(entityType: Class, propertyName: string | Symbol, dbName: string, elementType: Class) {
   let valueMapper = getOrComposeListMapperInstance(elementType);
+  return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
+}
+
+export function configureAttrSet(entityType: Class, propertyName: string | Symbol, dbName: string, elementType: Class) {
+  let valueMapper = getOrComposeSetMapperInstance(elementType);
   return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
 }
