@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.1-alpha.12] - 2024-03-22
+
 - feat: Add @Attr.Set
 - BREAKING: Rename @Attribute to @Attr, @Collection to @Attr.List and @Dictionary to @Attr.Dictionary
 
