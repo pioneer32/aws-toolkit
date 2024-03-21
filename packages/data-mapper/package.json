@@ -18,13 +18,18 @@
     "prepack:types": "tsc -p ./tsconfig.types.json",
     "test": "FORCE_COLOR=1 jest --runInBand",
     "test:watch": "FORCE_COLOR=1 jest --watch",
-    "typecheck": "tsc -noEmit -p ./tsconfig.build.json && tsc -noEmit -p ./tsconfig.test.json"
+    "typecheck": "tsc -noEmit -p ./tsconfig.build.json && tsc -noEmit -p ./tsconfig.test.json",
+    "release-it": "npx release-it"
   },
   "dependencies": {
     "typescript-chained-error": "1.6.0"
   },
   "peerDependencies": {
     "reflect-metadata": "*"
+  },
+  "devDependencies": {
+    "@release-it/keep-a-changelog": "~5.0.0",
+    "typescript": "~4.1.6"
   },
   "engines": {
     "node": ">=14.0.0",
