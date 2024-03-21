@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.1-alpha.11] - 2024-03-21
+
 - Bring back [LICENSE](./LICENSE)
 - Make @AttributeFromParam generic
 
