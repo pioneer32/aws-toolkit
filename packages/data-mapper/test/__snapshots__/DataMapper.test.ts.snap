@@ -244,7 +244,989 @@ CA11 {
 }
 `;
 
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [1] dbValue 1`] = `
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: fromDb called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (from)",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C2@1.child",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1 (from)",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C2@1.child",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2.id (from)",
+    Object {
+      "$type": Object {
+        "S": "C2@1",
+      },
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 0,
+      "path": "C2@1.",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2 (from)",
+    Object {
+      "$type": Object {
+        "S": "C2@1",
+      },
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 0,
+      "path": "C2@1.",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: fromDb called: rehydratedEntityFromDb 1`] = `
+C2 {
+  "child": C1 {
+    "id": "1",
+    "name": "foo",
+  },
+  "id": "2",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: fromDto called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (from)",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C2@1.child",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1 (from)",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C2@1.child",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2.id (from)",
+    Object {
+      "$type": "C2@1",
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 0,
+      "path": "C2@1.",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2 (from)",
+    Object {
+      "$type": "C2@1",
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 0,
+      "path": "C2@1.",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: fromDto called: rehydratedEntityFromDto 1`] = `
+C2 {
+  "child": C1 {
+    "id": "1",
+    "name": "foo",
+  },
+  "id": "2",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: toDb called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C2.child",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1 (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C2.child",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C2.id (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+    },
+    Object {
+      "level": 0,
+      "path": "C2.",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C2 (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 0,
+      "path": "C2.",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: toDb called: dbValue 1`] = `
+Object {
+  "$type": Object {
+    "S": "C2@1",
+  },
+  "child": Object {
+    "M": Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+  },
+  "id": "2",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: toDto called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C2.child",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1 (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C2.child",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C2.id (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 0,
+      "path": "C2.",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C2 (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 0,
+      "path": "C2.",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C2, calling mappers in the right order and providing the right level in the context: toDto called: dtoValue 1`] = `
+Object {
+  "$type": "C2@1",
+  "child": Object {
+    "$type": "C1@1",
+    "Id": "1",
+    "name": "foo",
+  },
+  "id": "2",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: fromDb called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (from)",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1 (from)",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2.id (from)",
+    Object {
+      "$type": Object {
+        "S": "C2@1",
+      },
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "2",
+      },
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2 (from)",
+    Object {
+      "$type": Object {
+        "S": "C2@1",
+      },
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "2",
+      },
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.name (from)",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1 (from)",
+    Object {
+      "$type": Object {
+        "S": "C1@1",
+      },
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C3 (from)",
+    Object {
+      "$type": Object {
+        "S": "C3@1",
+      },
+      "child1": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C2@1",
+          },
+          "child": Object {
+            "M": Object {
+              "$type": Object {
+                "S": "C1@1",
+              },
+              "Id": "1",
+              "name": "foo",
+            },
+          },
+          "id": Object {
+            "S": "2",
+          },
+        },
+      },
+      "child2": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "3",
+      },
+    },
+    Object {
+      "child1": Object {
+        "child": Object {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "level": 0,
+      "path": "C3@1.",
+      "source": "DB",
+      "target": undefined,
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: fromDb called: rehydratedEntityFromDb 1`] = `
+C3 {
+  "child1": C2 {
+    "child": C1 {
+      "id": "1",
+      "name": "foo",
+    },
+    "id": "2",
+  },
+  "child2": C1 {
+    "id": "1",
+    "name": "foo",
+  },
+  "id": "3",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: fromDto called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (from)",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1 (from)",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3@1.child1.child",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2.id (from)",
+    Object {
+      "$type": "C2@1",
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C2 (from)",
+    Object {
+      "$type": "C2@1",
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child1",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1.name (from)",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C1 (from)",
+    Object {
+      "$type": "C1@1",
+      "Id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3@1.child2",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+  Array [
+    "C3 (from)",
+    Object {
+      "$type": "C3@1",
+      "child1": Object {
+        "$type": "C2@1",
+        "child": Object {
+          "$type": "C1@1",
+          "Id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "child1": Object {
+        "child": Object {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "level": 0,
+      "path": "C3@1.",
+      "source": "DTO",
+      "target": undefined,
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: fromDto called: rehydratedEntityFromDto 1`] = `
+C3 {
+  "child1": C2 {
+    "child": C1 {
+      "id": "1",
+      "name": "foo",
+    },
+    "id": "2",
+  },
+  "child2": C1 {
+    "id": "1",
+    "name": "foo",
+  },
+  "id": "3",
+}
+`;
+
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: toDb called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1 (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C2.id (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C2 (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "2",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1.name (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C1 (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+  Array [
+    "C3 (to)",
+    Object {
+      "child1": Object {
+        "child": Object {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "child1": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C2@1",
+          },
+          "child": Object {
+            "M": Object {
+              "$type": Object {
+                "S": "C1@1",
+              },
+              "Id": "1",
+              "name": "foo",
+            },
+          },
+          "id": Object {
+            "S": "2",
+          },
+        },
+      },
+      "child2": Object {
+        "M": Object {
+          "$type": Object {
+            "S": "C1@1",
+          },
+          "Id": "1",
+          "name": "foo",
+        },
+      },
+      "id": Object {
+        "S": "3",
+      },
+    },
+    Object {
+      "level": 0,
+      "path": "C3.",
+      "source": undefined,
+      "target": "DB",
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: toDb called: dbValue 1`] = `
 Object {
   "$type": Object {
     "S": "C3@1",
@@ -283,7 +1265,159 @@ Object {
 }
 `;
 
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [1] dtoValue 1`] = `
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: toDto called: calls 1`] = `
+Array [
+  Array [
+    "C1.name (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1 (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 2,
+      "path": "C3.child1.child",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C2.id (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C2 (to)",
+    Object {
+      "child": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "child": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "2",
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child1",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1.name (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {},
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C1 (to)",
+    Object {
+      "id": "1",
+      "name": "foo",
+    },
+    Object {
+      "name": "foo",
+    },
+    Object {
+      "level": 1,
+      "path": "C3.child2",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+  Array [
+    "C3 (to)",
+    Object {
+      "child1": Object {
+        "child": Object {
+          "id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "child1": Object {
+        "$type": "C2@1",
+        "child": Object {
+          "$type": "C1@1",
+          "Id": "1",
+          "name": "foo",
+        },
+        "id": "2",
+      },
+      "child2": Object {
+        "$type": "C1@1",
+        "Id": "1",
+        "name": "foo",
+      },
+      "id": "3",
+    },
+    Object {
+      "level": 0,
+      "path": "C3.",
+      "source": undefined,
+      "target": "DTO",
+    },
+  ],
+]
+`;
+
+exports[`DataMapper Context & Custom mappers should map C3, calling mappers in the right order and providing the right level in the context: toDto called: dtoValue 1`] = `
 Object {
   "$type": "C3@1",
   "child1": Object {
@@ -302,730 +1436,6 @@ Object {
   },
   "id": "3",
 }
-`;
-
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [2] calls to 1`] = `
-Array [
-  Array [
-    "C1.name.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 2,
-      "path": "C3.child1.child",
-      "source": undefined,
-      "target": "DB",
-    },
-  ],
-  Array [
-    "C1.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 2,
-      "path": "C3.child1.child",
-      "source": undefined,
-      "target": "DB",
-    },
-  ],
-  Array [
-    "C1.id.to",
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "child": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C1@1",
-          },
-          "Id": "1",
-          "name": "foo",
-        },
-      },
-    },
-    Object {
-      "level": 1,
-      "path": "C3.child1",
-      "source": undefined,
-      "target": "DB",
-    },
-  ],
-  Array [
-    "C2.to",
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "child": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C1@1",
-          },
-          "Id": "1",
-          "name": "foo",
-        },
-      },
-      "id": Object {
-        "S": "2",
-      },
-    },
-    Object {
-      "level": 1,
-      "path": "C3.child1",
-      "source": undefined,
-      "target": "DB",
-    },
-  ],
-  Array [
-    "C1.name.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 1,
-      "path": "C3.child2",
-      "source": undefined,
-      "target": "DB",
-    },
-  ],
-  Array [
-    "C1.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 1,
-      "path": "C3.child2",
-      "source": undefined,
-      "target": "DB",
-    },
-  ],
-  Array [
-    "C3.to",
-    Object {
-      "child1": C2 {
-        "child": C1 {
-          "id": "1",
-          "name": "foo",
-        },
-        "id": "2",
-      },
-      "child2": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "3",
-    },
-    Object {
-      "child1": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C2@1",
-          },
-          "child": Object {
-            "M": Object {
-              "$type": Object {
-                "S": "C1@1",
-              },
-              "Id": "1",
-              "name": "foo",
-            },
-          },
-          "id": Object {
-            "S": "2",
-          },
-        },
-      },
-      "child2": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C1@1",
-          },
-          "Id": "1",
-          "name": "foo",
-        },
-      },
-      "id": Object {
-        "S": "3",
-      },
-    },
-    Object {
-      "level": 0,
-      "path": "C3.",
-      "source": undefined,
-      "target": "DB",
-    },
-  ],
-]
-`;
-
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [2] calls to 2`] = `
-Array [
-  Array [
-    "C1.name.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 2,
-      "path": "C3.child1.child",
-      "source": undefined,
-      "target": "DTO",
-    },
-  ],
-  Array [
-    "C1.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 2,
-      "path": "C3.child1.child",
-      "source": undefined,
-      "target": "DTO",
-    },
-  ],
-  Array [
-    "C1.id.to",
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "child": Object {
-        "$type": "C1@1",
-        "Id": "1",
-        "name": "foo",
-      },
-    },
-    Object {
-      "level": 1,
-      "path": "C3.child1",
-      "source": undefined,
-      "target": "DTO",
-    },
-  ],
-  Array [
-    "C2.to",
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "child": Object {
-        "$type": "C1@1",
-        "Id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "level": 1,
-      "path": "C3.child1",
-      "source": undefined,
-      "target": "DTO",
-    },
-  ],
-  Array [
-    "C1.name.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 1,
-      "path": "C3.child2",
-      "source": undefined,
-      "target": "DTO",
-    },
-  ],
-  Array [
-    "C1.to",
-    Object {
-      "id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 1,
-      "path": "C3.child2",
-      "source": undefined,
-      "target": "DTO",
-    },
-  ],
-  Array [
-    "C3.to",
-    Object {
-      "child1": C2 {
-        "child": C1 {
-          "id": "1",
-          "name": "foo",
-        },
-        "id": "2",
-      },
-      "child2": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "3",
-    },
-    Object {
-      "child1": Object {
-        "$type": "C2@1",
-        "child": Object {
-          "$type": "C1@1",
-          "Id": "1",
-          "name": "foo",
-        },
-        "id": "2",
-      },
-      "child2": Object {
-        "$type": "C1@1",
-        "Id": "1",
-        "name": "foo",
-      },
-      "id": "3",
-    },
-    Object {
-      "level": 0,
-      "path": "C3.",
-      "source": undefined,
-      "target": "DTO",
-    },
-  ],
-]
-`;
-
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [3] rehydratedEntityFromDb 1`] = `
-C3 {
-  "child1": C2 {
-    "child": C1 {
-      "id": "1",
-      "name": "foo",
-    },
-    "id": "2",
-  },
-  "child2": C1 {
-    "id": "1",
-    "name": "foo",
-  },
-  "id": "3",
-}
-`;
-
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [3] rehydratedEntityFromDto 1`] = `
-C3 {
-  "child1": C2 {
-    "child": C1 {
-      "id": "1",
-      "name": "foo",
-    },
-    "id": "2",
-  },
-  "child2": C1 {
-    "id": "1",
-    "name": "foo",
-  },
-  "id": "3",
-}
-`;
-
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [4] calls from 1`] = `
-Array [
-  Array [
-    "C1.name.from",
-    Object {
-      "$type": Object {
-        "S": "C1@1",
-      },
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 2,
-      "path": "C3@1.child1.child",
-      "source": "DB",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.from",
-    Object {
-      "$type": Object {
-        "S": "C1@1",
-      },
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 2,
-      "path": "C3@1.child1.child",
-      "source": "DB",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.id.from",
-    Object {
-      "$type": Object {
-        "S": "C2@1",
-      },
-      "child": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C1@1",
-          },
-          "Id": "1",
-          "name": "foo",
-        },
-      },
-      "id": Object {
-        "S": "2",
-      },
-    },
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-    },
-    Object {
-      "level": 1,
-      "path": "C3@1.child1",
-      "source": "DB",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C2.from",
-    Object {
-      "$type": Object {
-        "S": "C2@1",
-      },
-      "child": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C1@1",
-          },
-          "Id": "1",
-          "name": "foo",
-        },
-      },
-      "id": Object {
-        "S": "2",
-      },
-    },
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "level": 1,
-      "path": "C3@1.child1",
-      "source": "DB",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.name.from",
-    Object {
-      "$type": Object {
-        "S": "C1@1",
-      },
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 1,
-      "path": "C3@1.child2",
-      "source": "DB",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.from",
-    Object {
-      "$type": Object {
-        "S": "C1@1",
-      },
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 1,
-      "path": "C3@1.child2",
-      "source": "DB",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C3.from",
-    Object {
-      "$type": Object {
-        "S": "C3@1",
-      },
-      "child1": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C2@1",
-          },
-          "child": Object {
-            "M": Object {
-              "$type": Object {
-                "S": "C1@1",
-              },
-              "Id": "1",
-              "name": "foo",
-            },
-          },
-          "id": Object {
-            "S": "2",
-          },
-        },
-      },
-      "child2": Object {
-        "M": Object {
-          "$type": Object {
-            "S": "C1@1",
-          },
-          "Id": "1",
-          "name": "foo",
-        },
-      },
-      "id": Object {
-        "S": "3",
-      },
-    },
-    Object {
-      "child1": C2 {
-        "child": C1 {
-          "id": "1",
-          "name": "foo",
-        },
-        "id": "2",
-      },
-      "child2": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "3",
-    },
-    Object {
-      "level": 0,
-      "path": "C3@1.",
-      "source": "DB",
-      "target": undefined,
-    },
-  ],
-]
-`;
-
-exports[`DataMapper Context & Custom mappers should map entity, calling mappers in the right order and providing the right level in the context: [4] calls from 2`] = `
-Array [
-  Array [
-    "C1.name.from",
-    Object {
-      "$type": "C1@1",
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 2,
-      "path": "C3@1.child1.child",
-      "source": "DTO",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.from",
-    Object {
-      "$type": "C1@1",
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 2,
-      "path": "C3@1.child1.child",
-      "source": "DTO",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.id.from",
-    Object {
-      "$type": "C2@1",
-      "child": Object {
-        "$type": "C1@1",
-        "Id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-    },
-    Object {
-      "level": 1,
-      "path": "C3@1.child1",
-      "source": "DTO",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C2.from",
-    Object {
-      "$type": "C2@1",
-      "child": Object {
-        "$type": "C1@1",
-        "Id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "child": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "2",
-    },
-    Object {
-      "level": 1,
-      "path": "C3@1.child1",
-      "source": "DTO",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.name.from",
-    Object {
-      "$type": "C1@1",
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {},
-    Object {
-      "level": 1,
-      "path": "C3@1.child2",
-      "source": "DTO",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C1.from",
-    Object {
-      "$type": "C1@1",
-      "Id": "1",
-      "name": "foo",
-    },
-    Object {
-      "name": "foo",
-    },
-    Object {
-      "level": 1,
-      "path": "C3@1.child2",
-      "source": "DTO",
-      "target": undefined,
-    },
-  ],
-  Array [
-    "C3.from",
-    Object {
-      "$type": "C3@1",
-      "child1": Object {
-        "$type": "C2@1",
-        "child": Object {
-          "$type": "C1@1",
-          "Id": "1",
-          "name": "foo",
-        },
-        "id": "2",
-      },
-      "child2": Object {
-        "$type": "C1@1",
-        "Id": "1",
-        "name": "foo",
-      },
-      "id": "3",
-    },
-    Object {
-      "child1": C2 {
-        "child": C1 {
-          "id": "1",
-          "name": "foo",
-        },
-        "id": "2",
-      },
-      "child2": C1 {
-        "id": "1",
-        "name": "foo",
-      },
-      "id": "3",
-    },
-    Object {
-      "level": 0,
-      "path": "C3@1.",
-      "source": "DTO",
-      "target": undefined,
-    },
-  ],
-]
 `;
 
 exports[`DataMapper Dictionary Attribute Mappers should map dictionary attributes: [1] dbValue 1`] = `

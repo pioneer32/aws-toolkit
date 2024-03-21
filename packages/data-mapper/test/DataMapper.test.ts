@@ -488,17 +488,22 @@ describe("DataMapper", () => {
   describe("Context & Custom mappers", () => {
     const calls: any[] = [];
     const recordCall = (fn: string, src: any, tgt: any, ctx: any) => {
-      calls.push([fn, { ...src }, { ...tgt }, { level: ctx.level, path: ctx.getPath(), target: ctx.target, source: ctx.source }]);
+      calls.push([
+        fn,
+        JSON.parse(JSON.stringify(src)),
+        JSON.parse(JSON.stringify(tgt)),
+        { level: ctx.level, path: ctx.getPath(), target: ctx.target, source: ctx.source },
+      ]);
     };
 
     @Entity({
       to: (src, tgt, ctx) => {
-        recordCall("C1.to", src, tgt, ctx);
+        recordCall("C1 (to)", src, tgt, ctx);
         tgt.Id = src.id;
         return tgt;
       },
       from: (src, tgt, ctx) => {
-        recordCall("C1.from", src, tgt, ctx);
+        recordCall("C1 (from)", src, tgt, ctx);
         tgt.id = src.Id;
         return tgt;
       },
@@ -507,7 +512,7 @@ describe("DataMapper", () => {
       id: string = "1";
       @Attribute({
         to: (src, tgt, ctx) => {
-          recordCall("C1.name.to", src, tgt, ctx);
+          recordCall("C1.name (to)", src, tgt, ctx);
           if (ctx.level === 0 && ctx.target === "DB") {
             tgt.name_$type = "String";
             tgt.name = { S: src.name };
@@ -517,7 +522,7 @@ describe("DataMapper", () => {
           return tgt;
         },
         from: (src, tgt, ctx) => {
-          recordCall("C1.name.from", src, tgt, ctx);
+          recordCall("C1.name (from)", src, tgt, ctx);
           if (ctx.level === 0 && ctx.source === "DB") {
             tgt.name = src.name.S + `(${src.name_$type})`;
           } else {
@@ -531,11 +536,11 @@ describe("DataMapper", () => {
 
     @Entity({
       to: (src, tgt, ctx) => {
-        recordCall("C2.to", src, tgt, ctx);
+        recordCall("C2 (to)", src, tgt, ctx);
         return tgt;
       },
       from: (src, tgt, ctx) => {
-        recordCall("C2.from", src, tgt, ctx);
+        recordCall("C2 (from)", src, tgt, ctx);
         return tgt;
       },
     })
@@ -546,7 +551,7 @@ describe("DataMapper", () => {
       constructor(
         @AttributeFromParam<C2>({
           to: (src, tgt, ctx) => {
-            recordCall("C1.id.to", src, tgt, ctx);
+            recordCall("C2.id (to)", src, tgt, ctx);
             if (ctx.level === 1 && ctx.target === "DB") {
               tgt.id = { S: src.id };
             } else {
@@ -555,7 +560,7 @@ describe("DataMapper", () => {
             return tgt;
           },
           from: (src, tgt, ctx) => {
-            recordCall("C1.id.from", src, tgt, ctx);
+            recordCall("C2.id (from)", src, tgt, ctx);
             if (ctx.level === 1 && ctx.source === "DB") {
               tgt.id = src.id.S;
             } else {
@@ -570,11 +575,11 @@ describe("DataMapper", () => {
 
     @Entity({
       to: (src, tgt, ctx) => {
-        recordCall("C3.to", src, tgt, ctx);
+        recordCall("C3 (to)", src, tgt, ctx);
         return tgt;
       },
       from: (src, tgt, ctx) => {
-        recordCall("C3.from", src, tgt, ctx);
+        recordCall("C3 (from)", src, tgt, ctx);
         return tgt;
       },
     })
@@ -589,35 +594,64 @@ describe("DataMapper", () => {
       child2: C1 = new C1();
     }
 
-    it("should map entity, calling mappers in the right order and providing the right level in the context", () => {
+    it("should map C3, calling mappers in the right order and providing the right level in the context", () => {
       const entity = new C3();
 
       const dbValue = DataMapper.toDb(entity);
-      expect(dbValue).toMatchSnapshot("[1] dbValue");
-      expect(calls).toMatchSnapshot("[2] calls to");
+      expect(dbValue).toMatchSnapshot("toDb called: dbValue");
+      expect(calls).toMatchSnapshot("toDb called: calls");
       calls.splice(0);
 
       const dtoValue = DataMapper.toDto(entity);
-      expect(dtoValue).toMatchSnapshot("[1] dtoValue");
-      expect(calls).toMatchSnapshot("[2] calls to");
+      expect(dtoValue).toMatchSnapshot("toDto called: dtoValue");
+      expect(calls).toMatchSnapshot("toDto called: calls");
       calls.splice(0);
 
       const rehydratedEntityFromDb = DataMapper.fromDb<C3>(dbValue);
-      expect(rehydratedEntityFromDb).toMatchSnapshot("[3] rehydratedEntityFromDb");
+      expect(rehydratedEntityFromDb).toMatchSnapshot("fromDb called: rehydratedEntityFromDb");
       expect(rehydratedEntityFromDb).toBeInstanceOf(C3);
       expect(rehydratedEntityFromDb.child1).toBeInstanceOf(C2);
       expect(rehydratedEntityFromDb.child1.child).toBeInstanceOf(C1);
       expect(rehydratedEntityFromDb.child2).toBeInstanceOf(C1);
-      expect(calls).toMatchSnapshot("[4] calls from");
+      expect(calls).toMatchSnapshot("fromDb called: calls");
       calls.splice(0);
 
       const rehydratedEntityFromDto = DataMapper.fromDto<C3>(dtoValue);
-      expect(rehydratedEntityFromDto).toMatchSnapshot("[3] rehydratedEntityFromDto");
+      expect(rehydratedEntityFromDto).toMatchSnapshot("fromDto called: rehydratedEntityFromDto");
       expect(rehydratedEntityFromDto).toBeInstanceOf(C3);
       expect(rehydratedEntityFromDto.child1).toBeInstanceOf(C2);
       expect(rehydratedEntityFromDto.child1.child).toBeInstanceOf(C1);
       expect(rehydratedEntityFromDto.child2).toBeInstanceOf(C1);
-      expect(calls).toMatchSnapshot("[4] calls from");
+      expect(calls).toMatchSnapshot("fromDto called: calls");
+      calls.splice(0);
+    });
+
+    it("should map C2, calling mappers in the right order and providing the right level in the context", () => {
+      const entity = new C2();
+
+      const dbValue = DataMapper.toDb(entity);
+      expect(dbValue).toMatchSnapshot("toDb called: dbValue");
+      expect(calls).toMatchSnapshot("toDb called: calls");
+      calls.splice(0);
+
+      const dtoValue = DataMapper.toDto(entity);
+      expect(dtoValue).toMatchSnapshot("toDto called: dtoValue");
+      expect(calls).toMatchSnapshot("toDto called: calls");
+      calls.splice(0);
+
+      const rehydratedEntityFromDb = DataMapper.fromDb<C2>(dbValue);
+      expect(rehydratedEntityFromDb).toMatchSnapshot("fromDb called: rehydratedEntityFromDb");
+      expect(rehydratedEntityFromDb).toBeInstanceOf(C2);
+      expect(rehydratedEntityFromDb.child).toBeInstanceOf(C1);
+      expect(calls).toMatchSnapshot("fromDb called: calls");
+      calls.splice(0);
+
+      const rehydratedEntityFromDto = DataMapper.fromDto<C2>(dtoValue);
+      expect(rehydratedEntityFromDto).toMatchSnapshot("fromDto called: rehydratedEntityFromDto");
+      expect(rehydratedEntityFromDto).toBeInstanceOf(C2);
+      expect(rehydratedEntityFromDto.child).toBeInstanceOf(C1);
+      expect(calls).toMatchSnapshot("fromDto called: calls");
+      calls.splice(0);
     });
   });
 });
