@@ -38,6 +38,7 @@
   "files": [
     "src",
     "dist",
+    "LICENSE",
     "jestSetup.js",
     "!**/*.test.ts",
     "!**/*.test.tsx",

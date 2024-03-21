@@ -1,6 +1,6 @@
 import DataMapper, { ScalarMappers } from "../src/index";
 
-import { Attribute, AttributeFromParam, Collection, CollectionFromParam, Dictionary, DictionaryFromParam, Entity, Value } from "../src/decorators";
+import { Attribute, AttributeFromParam, Collection, CollectionFromParam, Dictionary, DictionaryFromParam, Entity, Value } from "../src";
 
 // TODO: Cover decorators with tests Especially how they enforce invariants
 // TODO: Cover exported ScalarMapper
@@ -544,7 +544,7 @@ describe("DataMapper", () => {
       child: C1 = new C1();
 
       constructor(
-        @AttributeFromParam({
+        @AttributeFromParam<C2>({
           to: (src, tgt, ctx) => {
             recordCall("C1.id.to", src, tgt, ctx);
             if (ctx.level === 1 && ctx.target === "DB") {

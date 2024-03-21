@@ -6,7 +6,7 @@ import {
   configureEntity,
   configureValue,
 } from "./configs";
-import { EntityMapperConfig, ValueMapperConfig } from "./types";
+import { ChainableMapper, EntityMapperConfig, ValueMapperConfig } from "./types";
 
 // TODO: Support Sets and Objects
 // TODO: Add a way to map "inlined" entities when the parent entity is annotated with @Mapping (to and from)
@@ -184,8 +184,8 @@ export function Attribute(nameOrMapperOrConfig?: string | AttributeConfig | Valu
 export function AttributeFromParam(): ParameterDecorator;
 export function AttributeFromParam(name: string): ParameterDecorator;
 export function AttributeFromParam(config: AttributeConfig): ParameterDecorator;
-export function AttributeFromParam(mapper: ValueMapperConfig): ParameterDecorator;
-export function AttributeFromParam(nameOrMapperOrConfig?: string | AttributeConfig | ValueMapperConfig): ParameterDecorator {
+export function AttributeFromParam<INT = any, EXT = any>(mapper: ChainableMapper<INT, EXT>): ParameterDecorator;
+export function AttributeFromParam<INT = any, EXT = any>(nameOrMapperOrConfig?: string | AttributeConfig | ChainableMapper<INT, EXT>): ParameterDecorator {
   return (target: any, propertyKey, parameterIndex) => {
     if (isCustomMapper(nameOrMapperOrConfig)) {
       configureAttributeWithCustomMapper(target, nameOrMapperOrConfig as ValueMapperConfig);
@@ -199,10 +199,10 @@ export function AttributeFromParam(nameOrMapperOrConfig?: string | AttributeConf
 
     const propertyName = toValidPropertyName(paramName, target.name, '@AttributeFromParam({propertyName:"propertyName"})');
     const type =
-      (typeof nameOrMapperOrConfig !== "string" ? nameOrMapperOrConfig?.type : undefined) ||
+      (typeof nameOrMapperOrConfig !== "string" ? (nameOrMapperOrConfig as AttributeConfig)?.type : undefined) ||
       Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
     const dbName = toValidDbName(
-      typeof nameOrMapperOrConfig === "string" ? nameOrMapperOrConfig : nameOrMapperOrConfig?.name || propertyName,
+      typeof nameOrMapperOrConfig === "string" ? nameOrMapperOrConfig : (nameOrMapperOrConfig as AttributeConfig)?.name || propertyName,
       `${target.constructor.name}.${propertyName}`,
       'either @AttributeFromParam("name") or @AttributeFromParam({name:"name"})'
     );
