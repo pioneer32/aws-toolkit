@@ -118,7 +118,7 @@ Object {
     ],
   },
   "bools2": Object {
-    "L": Array [
+    "SS": Array [
       Object {
         "BOOL": true,
       },
@@ -142,7 +142,7 @@ Object {
     ],
   },
   "children2": Object {
-    "L": Array [
+    "SS": Array [
       Object {
         "M": Object {
           "$type": Object {
@@ -176,7 +176,7 @@ Object {
     ],
   },
   "numbers2": Object {
-    "L": Array [
+    "SS": Array [
       Object {
         "N": "1",
       },
@@ -1666,7 +1666,7 @@ DA11 {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [1] dbValue 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance and @Entity(): [1] dbValue 1`] = `
 Object {
   "$type": Object {
     "S": "IA14@1",
@@ -1692,7 +1692,7 @@ Object {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [1] dtoValue 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance and @Entity(): [1] dtoValue 1`] = `
 Object {
   "$type": "IA14@1",
   "a": 2,
@@ -1704,7 +1704,7 @@ Object {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [2] rehydratedEntityFromDb 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance and @Entity(): [2] rehydratedEntityFromDb 1`] = `
 IA14 {
   "a": 2,
   "b": 1,
@@ -1715,7 +1715,7 @@ IA14 {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity(): [2] rehydratedEntityFromDto 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance and @Entity(): [2] rehydratedEntityFromDto 1`] = `
 IA14 {
   "a": 2,
   "b": 1,
@@ -1726,7 +1726,7 @@ IA14 {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [1] dbValue 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance: [1] dbValue 1`] = `
 Object {
   "$type": Object {
     "S": "IA13@1",
@@ -1752,7 +1752,7 @@ Object {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [1] dtoValue 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance: [1] dtoValue 1`] = `
 Object {
   "$type": "IA13@1",
   "a": 2,
@@ -1764,7 +1764,7 @@ Object {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [2] rehydratedEntityFromDb 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance: [2] rehydratedEntityFromDb 1`] = `
 IA13 {
   "_q": 3,
   "a": 2,
@@ -1776,7 +1776,7 @@ IA13 {
 }
 `;
 
-exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance: [2] rehydratedEntityFromDto 1`] = `
+exports[`DataMapper Inheritance should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance: [2] rehydratedEntityFromDto 1`] = `
 IA13 {
   "_q": 3,
   "a": 2,

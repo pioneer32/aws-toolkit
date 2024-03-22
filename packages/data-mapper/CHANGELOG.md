@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix: @Attr.Set and @AttrFromParam.Set should use DynamoDB String Set
+- BREAKING: Rename @AttributeFromParam to @AttrFromParam
+
 ## [0.0.1-alpha.12] - 2024-03-22
 
 - feat: Add @Attr.Set

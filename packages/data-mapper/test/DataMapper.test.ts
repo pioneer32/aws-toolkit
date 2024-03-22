@@ -1,6 +1,6 @@
 import DataMapper, { ScalarMappers } from "../src/index";
 
-import { Attr, AttributeFromParam, CollectionFromParam, DictionaryFromParam, Entity, Value } from "../src";
+import { Attr, AttrFromParam, CollectionFromParam, DictionaryFromParam, Entity, Value } from "../src";
 
 // TODO: Cover decorators with tests Especially how they enforce invariants
 // TODO: Cover exported ScalarMapper
@@ -51,7 +51,7 @@ describe("DataMapper", () => {
         this._private = value;
       }
 
-      constructor(@AttributeFromParam() public id: number, @AttributeFromParam() private _secret: string = "nope") {}
+      constructor(@AttrFromParam() public id: number, @AttrFromParam() private _secret: string = "nope") {}
     }
 
     it("should map simple attributes", () => {
@@ -232,7 +232,7 @@ describe("DataMapper", () => {
       @Attr()
       b: number = 1;
 
-      constructor(@AttributeFromParam() public q: number, @AttributeFromParam() private w: number = 1) {}
+      constructor(@AttrFromParam() public q: number, @AttrFromParam() private w: number = 1) {}
     }
 
     abstract class IA12 extends IA11 {
@@ -241,7 +241,7 @@ describe("DataMapper", () => {
       @Attr()
       c: number = 2;
 
-      constructor(@AttributeFromParam() private e: number = 2) {
+      constructor(@AttrFromParam() private e: number = 2) {
         super(2, 2);
       }
     }
@@ -260,7 +260,7 @@ describe("DataMapper", () => {
       }
     }
 
-    it("should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance", () => {
+    it("should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance", () => {
       const entity = new IA13();
       expect(entity).toBeInstanceOf(IA11);
       expect(entity).toBeInstanceOf(IA12);
@@ -285,7 +285,7 @@ describe("DataMapper", () => {
       expect(rehydratedEntityFromDto).toMatchSnapshot("[2] rehydratedEntityFromDto");
     });
 
-    it("should map simple attributes annotated with @Attribute and @AttributeFromParam under inheritance and @Entity()", () => {
+    it("should map simple attributes annotated with @Attribute and @AttrFromParam under inheritance and @Entity()", () => {
       const entity = new IA14();
       expect(entity).toBeInstanceOf(IA11);
       expect(entity).toBeInstanceOf(IA12);
@@ -561,7 +561,7 @@ describe("DataMapper", () => {
       child: C1 = new C1();
 
       constructor(
-        @AttributeFromParam<C2>({
+        @AttrFromParam<C2>({
           to: (src, tgt, ctx) => {
             recordCall("C2.id (to)", src, tgt, ctx);
             if (ctx.level === 1 && ctx.target === "DB") {

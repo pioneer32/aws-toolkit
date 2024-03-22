@@ -135,7 +135,7 @@ export function composeSetMapper<V>(elementMapper: Mapper<V, any>): Mapper<Set<V
         items.push(to(val, ctx));
         ctx.out();
       }
-      return ctx.target === "DB" ? { L: items } : items;
+      return ctx.target === "DB" ? { SS: items } : items;
     },
     from: (src, ctx): any => {
       if (ctx.source === "DB") {
@@ -143,7 +143,7 @@ export function composeSetMapper<V>(elementMapper: Mapper<V, any>): Mapper<Set<V
           return null;
         }
         return new Set(
-          src.L.map((val: any, idx: number) => {
+          src.SS.map((val: any, idx: number) => {
             ctx.in(idx);
             const v = from(val, ctx);
             ctx.out();

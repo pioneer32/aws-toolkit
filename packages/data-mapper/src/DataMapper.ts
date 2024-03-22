@@ -15,7 +15,7 @@ import { ConcreteContextFrom, ConcreteContextTo } from "./context";
  * 5. When entities are mapped from JSON-serializable or DynamoDB format, the previously persisted $type tells the mapper, what configuration should be used
  * 6. A set of annotations belonging Entity or Value or any scalar value determine the mapper configuration
  * 7. All scalar values, maps and lists are nullable
- * 8. TODO: Implement @AutoAttribute and @AutoAttributeFromParam
+ * 8. TODO: Implement @AutoAttribute and @AutoAttrFromParam
  * 9. TODO: Implement Strict Mode, when the types are checked in both ways: when mapping TO, whether the configuration matches the real value received by the mapper, when mapping FROM, whether
  * *  the configuration (selected based on $type value) matches the value received by the mapper
  */

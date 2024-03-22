@@ -84,12 +84,12 @@ export function CollectionFromParam(elementTypeOrDbName: string, elementType?: a
       .split(/\s*,\s*/)
       [parameterIndex].split(/\s*=/)[0];
 
-    const propertyName = toValidPropertyName(paramName, target.name, '@AttributeFromParam("dbAttributeName", "propertyName")');
+    const propertyName = toValidPropertyName(paramName, target.name, '@AttrFromParam("dbAttributeName", "propertyName")');
     const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
     const dbName = toValidDbName(
       elementType && elementTypeOrDbName ? elementTypeOrDbName : propertyName,
       `${target.name}.${propertyName}`,
-      '@AttributeFromParam("name")'
+      '@AttrFromParam("name")'
     );
 
     // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
@@ -205,11 +205,11 @@ export namespace Attr {
   }
 }
 
-export function AttributeFromParam(): ParameterDecorator;
-export function AttributeFromParam(name: string): ParameterDecorator;
-export function AttributeFromParam(config: AttributeConfig): ParameterDecorator;
-export function AttributeFromParam<INT = any, EXT = any>(mapper: ChainableMapper<INT, EXT>): ParameterDecorator;
-export function AttributeFromParam<INT = any, EXT = any>(nameOrMapperOrConfig?: string | AttributeConfig | ChainableMapper<INT, EXT>): ParameterDecorator {
+export function AttrFromParam(): ParameterDecorator;
+export function AttrFromParam(name: string): ParameterDecorator;
+export function AttrFromParam(config: AttributeConfig): ParameterDecorator;
+export function AttrFromParam<INT = any, EXT = any>(mapper: ChainableMapper<INT, EXT>): ParameterDecorator;
+export function AttrFromParam<INT = any, EXT = any>(nameOrMapperOrConfig?: string | AttributeConfig | ChainableMapper<INT, EXT>): ParameterDecorator {
   return (target: any, propertyKey, parameterIndex) => {
     if (isCustomMapper(nameOrMapperOrConfig)) {
       configureAttributeWithCustomMapper(target, nameOrMapperOrConfig as ValueMapperConfig);
@@ -221,17 +221,17 @@ export function AttributeFromParam<INT = any, EXT = any>(nameOrMapperOrConfig?: 
       .split(/\s*,\s*/)
       [parameterIndex].split(/\s*=/)[0];
 
-    const propertyName = toValidPropertyName(paramName, target.name, '@AttributeFromParam({propertyName:"propertyName"})');
+    const propertyName = toValidPropertyName(paramName, target.name, '@AttrFromParam({propertyName:"propertyName"})');
     const type =
       (typeof nameOrMapperOrConfig !== "string" ? (nameOrMapperOrConfig as AttributeConfig)?.type : undefined) ||
       Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
     const dbName = toValidDbName(
       typeof nameOrMapperOrConfig === "string" ? nameOrMapperOrConfig : (nameOrMapperOrConfig as AttributeConfig)?.name || propertyName,
       `${target.constructor.name}.${propertyName}`,
-      'either @AttributeFromParam("name") or @AttributeFromParam({name:"name"})'
+      'either @AttrFromParam("name") or @AttrFromParam({name:"name"})'
     );
 
-    assertTypeIsSupported(type, `${target.name}.${propertyName}`, `@AttributeFromParam`, `@AttributeFromParam({type:Type})`);
+    assertTypeIsSupported(type, `${target.name}.${propertyName}`, `@AttrFromParam`, `@AttrFromParam({type:Type})`);
 
     if (type === Array || type === Set) {
       throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\nPlease consider using @CollectionFromParam for Array and Set instead`);
