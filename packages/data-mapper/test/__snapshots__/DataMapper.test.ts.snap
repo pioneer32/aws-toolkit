@@ -165,6 +165,16 @@ Object {
       },
     ],
   },
+  "ids2": Object {
+    "SS": Array [
+      Object {
+        "S": "1",
+      },
+      Object {
+        "S": "2",
+      },
+    ],
+  },
   "numbers": Object {
     "L": Array [
       Object {
@@ -227,6 +237,10 @@ Object {
     "1",
     "2",
   ],
+  "ids2": Array [
+    "1",
+    "2",
+  ],
   "numbers": Array [
     1,
     2,
@@ -272,6 +286,10 @@ CA11 {
     "1",
     "2",
   ],
+  "ids2": Set {
+    "1",
+    "2",
+  },
   "numbers": Array [
     1,
     2,
@@ -313,6 +331,10 @@ CA11 {
     "1",
     "2",
   ],
+  "ids2": Set {
+    "1",
+    "2",
+  },
   "numbers": Array [
     1,
     2,

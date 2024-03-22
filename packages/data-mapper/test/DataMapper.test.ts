@@ -163,13 +163,14 @@ describe("DataMapper", () => {
 
       constructor(
         @AttrFromParam.List(String) public ids: string[],
-        @AttrFromParam.List("nums", Number)
-        private _secretNums: number[] = [3, 4]
+        @AttrFromParam.Set(String) public ids2: Set<string>,
+        @AttrFromParam.List("nums", Number) private _secretNums: number[] = [3, 4],
+        @AttrFromParam.Set("nums2", Number) private _secretNums2 = new Set([3, 4])
       ) {}
     }
 
     it("should map collection attributes", () => {
-      const entity = new CA11(["1", "2"]);
+      const entity = new CA11(["1", "2"], new Set(["1", "2"]));
       expect(entity).toBeInstanceOf(CA11);
 
       const dbValue = DataMapper.toDb(entity);

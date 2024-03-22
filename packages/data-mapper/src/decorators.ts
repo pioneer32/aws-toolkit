@@ -223,6 +223,33 @@ export namespace AttrFromParam {
     };
   }
 
+  export function Set(elementType: any): ParameterDecorator;
+  export function Set(dbName: string, elementType: any): ParameterDecorator;
+  export function Set(elementTypeOrDbName: string, elementType?: any): ParameterDecorator {
+    return (target: any, propertyKey, parameterIndex) => {
+      const paramName = target
+        .toString()
+        .match(/constructor\s*\(\s*([^)]+)\s*\)/)?.[1]
+        .split(/\s*,\s*/)
+        [parameterIndex].split(/\s*=/)[0];
+
+      const propertyName = toValidPropertyName(paramName, target.name, '@AttrFromParam.Set("dbAttributeName", "propertyName")');
+      const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
+      const dbName = toValidDbName(
+        elementType && elementTypeOrDbName ? elementTypeOrDbName : propertyName,
+        `${target.name}.${propertyName}`,
+        '@AttrFromParam.Set("name")'
+      );
+
+      // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
+      if (type === String || type === Number || type === Boolean || type === Map) {
+        throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\n@AttrFromParam.Set should only be used with Set only`);
+      }
+
+      configureAttrSet(target, propertyName!, dbName, elementType || elementTypeOrDbName);
+    };
+  }
+
   export function Map(valueType: any): ParameterDecorator;
   export function Map(valueTypeOrDbName: string, valueType: any): ParameterDecorator;
   export function Map(valueTypeOrDbName: string, valueType?: any): ParameterDecorator {
