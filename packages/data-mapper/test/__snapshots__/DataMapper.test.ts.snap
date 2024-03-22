@@ -118,7 +118,7 @@ Object {
     ],
   },
   "bools2": Object {
-    "SS": Array [
+    "L": Array [
       Object {
         "BOOL": true,
       },
@@ -142,7 +142,7 @@ Object {
     ],
   },
   "children2": Object {
-    "SS": Array [
+    "L": Array [
       Object {
         "M": Object {
           "$type": Object {
@@ -166,7 +166,7 @@ Object {
     ],
   },
   "ids2": Object {
-    "SS": Array [
+    "L": Array [
       Object {
         "S": "1",
       },
@@ -186,7 +186,7 @@ Object {
     ],
   },
   "numbers2": Object {
-    "SS": Array [
+    "L": Array [
       Object {
         "N": "1",
       },

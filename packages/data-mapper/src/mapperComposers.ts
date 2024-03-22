@@ -135,15 +135,17 @@ export function composeSetMapper<V>(elementMapper: Mapper<V, any>): Mapper<Set<V
         items.push(to(val, ctx));
         ctx.out();
       }
-      return ctx.target === "DB" ? { SS: items } : items;
+      // DynamoDB offers limited types for sets: NS SS BS, which doesn't quite work for us, hence, we mimic it using lists
+      return ctx.target === "DB" ? { L: items } : items;
     },
     from: (src, ctx): any => {
       if (ctx.source === "DB") {
         if (src.NULL) {
           return null;
         }
+        // DynamoDB offers limited types for sets: NS SS BS, which doesn't quite work for us, hence, we mimic it using lists
         return new Set(
-          src.SS.map((val: any, idx: number) => {
+          src.L.map((val: any, idx: number) => {
             ctx.in(idx);
             const v = from(val, ctx);
             ctx.out();
