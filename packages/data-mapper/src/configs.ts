@@ -148,7 +148,7 @@ export function configureAttribute(entityType: Class, propertyName: string | Sym
   return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
 }
 
-export function configureDictionaryAttribute(entityType: Class, propertyName: string | Symbol, dbName: string, valueType: Class) {
+export function configureAttrMap(entityType: Class, propertyName: string | Symbol, dbName: string, valueType: Class) {
   let valueMapper = getOrComposeDictionaryMapperInstance(valueType);
   return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
 }

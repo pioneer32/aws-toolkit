@@ -1,6 +1,6 @@
 import DataMapper, { ScalarMappers } from "../src/index";
 
-import { Attr, AttrFromParam, CollectionFromParam, DictionaryFromParam, Entity, Value } from "../src";
+import { Attr, AttrFromParam, Entity, Value } from "../src";
 
 // TODO: Cover decorators with tests Especially how they enforce invariants
 // TODO: Cover exported ScalarMapper
@@ -99,8 +99,8 @@ describe("DataMapper", () => {
       children: Map<string, I> = new Map([["x", new I()]]);
 
       constructor(
-        @DictionaryFromParam(String) public ids: Map<string, string>,
-        @DictionaryFromParam("nums", Number)
+        @AttrFromParam.Map(String) public ids: Map<string, string>,
+        @AttrFromParam.Map("nums", Number)
         private _secretNums: Map<string, number> = new Map([
           ["q", 3],
           ["w", 4],
@@ -162,8 +162,8 @@ describe("DataMapper", () => {
       children2 = new Set([new I()]);
 
       constructor(
-        @CollectionFromParam(String) public ids: string[],
-        @CollectionFromParam("nums", Number)
+        @AttrFromParam.List(String) public ids: string[],
+        @AttrFromParam.List("nums", Number)
         private _secretNums: number[] = [3, 4]
       ) {}
     }

@@ -3,7 +3,7 @@ import {
   configureAttributeWithCustomMapper,
   configureAttrList,
   configureAttrSet,
-  configureDictionaryAttribute,
+  configureAttrMap,
   configureEntity,
   configureValue,
 } from "./configs";
@@ -45,60 +45,6 @@ function assertTypeIsSupported(type: any, fullPropertyName: string, decoratorNam
       );
     }
   }
-}
-
-export function DictionaryFromParam(valueType: any): ParameterDecorator;
-export function DictionaryFromParam(valueTypeOrDbName: string, valueType: any): ParameterDecorator;
-export function DictionaryFromParam(valueTypeOrDbName: string, valueType?: any): ParameterDecorator {
-  return (target: any, propertyKey, parameterIndex) => {
-    const paramName = target
-      .toString()
-      .match(/constructor\s*\(\s*([^)]+)\s*\)/)?.[1]
-      .split(/\s*,\s*/)
-      [parameterIndex].split(/\s*=/)[0];
-
-    const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
-    const propertyName = toValidPropertyName(paramName, target.name, '@DictionaryFromParam("dbAttributeName", "propertyName")');
-    const dbName = toValidDbName(
-      valueType && valueTypeOrDbName ? valueTypeOrDbName : propertyName,
-      `${target.name}.${propertyName}`,
-      '@DictionaryFromParam("name")'
-    );
-
-    // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
-    if (type === String || type === Number || type === Boolean || type === Array || type == Set) {
-      throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@DictionaryFromParam should only be used with Map`);
-    }
-
-    configureDictionaryAttribute(target, propertyName, dbName, valueType || valueTypeOrDbName);
-  };
-}
-
-export function CollectionFromParam(elementType: any): ParameterDecorator;
-export function CollectionFromParam(dbName: string, elementType: any): ParameterDecorator;
-export function CollectionFromParam(elementTypeOrDbName: string, elementType?: any): ParameterDecorator {
-  return (target: any, propertyKey, parameterIndex) => {
-    const paramName = target
-      .toString()
-      .match(/constructor\s*\(\s*([^)]+)\s*\)/)?.[1]
-      .split(/\s*,\s*/)
-      [parameterIndex].split(/\s*=/)[0];
-
-    const propertyName = toValidPropertyName(paramName, target.name, '@AttrFromParam("dbAttributeName", "propertyName")');
-    const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
-    const dbName = toValidDbName(
-      elementType && elementTypeOrDbName ? elementTypeOrDbName : propertyName,
-      `${target.name}.${propertyName}`,
-      '@AttrFromParam("name")'
-    );
-
-    // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
-    if (type === String || type === Number || type === Boolean || type === Map) {
-      throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\n@CollectionFromParam should only be used with Array only`);
-    }
-
-    configureAttrList(target, propertyName!, dbName, elementType || elementTypeOrDbName);
-  };
 }
 
 type AttributeConfig = {
@@ -200,7 +146,7 @@ export namespace Attr {
         throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@Dictionary should only be used with Map`);
       }
 
-      configureDictionaryAttribute(target.constructor, propertyName, dbName, valueType || valueTypeOrDbName);
+      configureAttrMap(target.constructor, propertyName, dbName, valueType || valueTypeOrDbName);
     };
   }
 }
@@ -233,16 +179,76 @@ export function AttrFromParam<INT = any, EXT = any>(nameOrMapperOrConfig?: strin
 
     assertTypeIsSupported(type, `${target.name}.${propertyName}`, `@AttrFromParam`, `@AttrFromParam({type:Type})`);
 
-    if (type === Array || type === Set) {
-      throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\nPlease consider using @CollectionFromParam for Array and Set instead`);
+    if (type === Array) {
+      throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\nPlease consider using @AttrFromParam.List for Array and Set instead`);
+    }
+
+    if (type === Set) {
+      throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\nPlease consider using @AttrFromParam.Set for Array and Set instead`);
     }
 
     if (type === Map) {
-      throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\nPlease consider using @DictionaryFromParam for Map`);
+      throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\nPlease consider using @AttrFromParam.Map for Map`);
     }
 
     configureAttribute(target, propertyName, dbName, type);
   };
+}
+
+export namespace AttrFromParam {
+  export function List(elementType: any): ParameterDecorator;
+  export function List(dbName: string, elementType: any): ParameterDecorator;
+  export function List(elementTypeOrDbName: string, elementType?: any): ParameterDecorator {
+    return (target: any, propertyKey, parameterIndex) => {
+      const paramName = target
+        .toString()
+        .match(/constructor\s*\(\s*([^)]+)\s*\)/)?.[1]
+        .split(/\s*,\s*/)
+        [parameterIndex].split(/\s*=/)[0];
+
+      const propertyName = toValidPropertyName(paramName, target.name, '@AttrFromParam.List("dbAttributeName", "propertyName")');
+      const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
+      const dbName = toValidDbName(
+        elementType && elementTypeOrDbName ? elementTypeOrDbName : propertyName,
+        `${target.name}.${propertyName}`,
+        '@AttrFromParam.List("name")'
+      );
+
+      // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
+      if (type === String || type === Number || type === Boolean || type === Map) {
+        throw new Error(`Unsupported property type for ${target.name}.${propertyName}.\n@AttrFromParam.List should only be used with Array only`);
+      }
+
+      configureAttrList(target, propertyName!, dbName, elementType || elementTypeOrDbName);
+    };
+  }
+
+  export function Map(valueType: any): ParameterDecorator;
+  export function Map(valueTypeOrDbName: string, valueType: any): ParameterDecorator;
+  export function Map(valueTypeOrDbName: string, valueType?: any): ParameterDecorator {
+    return (target: any, propertyKey, parameterIndex) => {
+      const paramName = target
+        .toString()
+        .match(/constructor\s*\(\s*([^)]+)\s*\)/)?.[1]
+        .split(/\s*,\s*/)
+        [parameterIndex].split(/\s*=/)[0];
+
+      const type = Reflect.getMetadata("design:paramtypes", target, propertyKey)[parameterIndex];
+      const propertyName = toValidPropertyName(paramName, target.name, '@AttrFromParam.Map("dbAttributeName", "propertyName")');
+      const dbName = toValidDbName(
+        valueType && valueTypeOrDbName ? valueTypeOrDbName : propertyName,
+        `${target.name}.${propertyName}`,
+        '@AttrFromParam.Map("name")'
+      );
+
+      // Yep. The type may not have been determined properly... but we don't care about that here, it will definitely fail
+      if (type === String || type === Number || type === Boolean || type === Array || type == Set) {
+        throw new Error(`Unsupported property type for ${target.constructor.name}.${propertyName}.\n@AttrFromParam.Map should only be used with Map`);
+      }
+
+      configureAttrMap(target, propertyName, dbName, valueType || valueTypeOrDbName);
+    };
+  }
 }
 
 export function Entity(): ClassDecorator;
