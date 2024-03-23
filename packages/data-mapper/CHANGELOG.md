@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.1-alpha.15] - 2024-03-23
+
 - feat: Improve error messages. Add Utils.getTypeMark
 
 ## [0.0.1-alpha.14] - 2024-03-22
