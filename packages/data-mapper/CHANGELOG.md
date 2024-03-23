@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- feat: Improve error messages. Add Utils.getTypeMark
+
 ## [0.0.1-alpha.14] - 2024-03-22
 
 - Fix: @Attr.Set and @AttrFromParam.Set are to use List as we need to keep nested structures

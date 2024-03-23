@@ -61,3 +61,5 @@ export * from "./decorators";
 
 export default DataMapper;
 export type DataMapper = typeof DataMapper;
+
+export { default as Utils } from "./utils";

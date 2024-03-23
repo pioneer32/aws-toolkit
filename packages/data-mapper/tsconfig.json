@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "typeRoots": ["../../node_modules/@types", "./types"],
-    "types": ["reflect-metadata", "jest"],
+    "types": ["reflect-metadata", "jest", "node"],
     "lib": ["ES2020", "DOM"],
     "target": "ES2020"
   },

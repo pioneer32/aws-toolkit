@@ -31,7 +31,7 @@ function getOrComposeEntityConfigurationEntry(entityType: Class): EntityInternal
   let entry = findEntityConfigurationEntry(className);
   if (entry) {
     if (entry.class !== entityType) {
-      throw new Error(`DD001: Two classes with the same name are found: ${entityType.name}`);
+      throw new Error(`DM001: Two classes with the same name are found: ${entityType.name}`);
     }
     return entry;
   }
@@ -55,7 +55,7 @@ function getValueConfigurationEntry(valueType: Class): ValueInternalConfig {
   let entry = findValueConfigurationEntry(className);
   if (entry) {
     if (entry.class !== valueType) {
-      throw new Error(`DD002: Two classes with the same name are found: ${valueType.name}`);
+      throw new Error(`DM002: Two classes with the same name are found: ${valueType.name}`);
     }
     return entry;
   }
@@ -84,7 +84,7 @@ function getOrComposeListMapperInstance(elementType: Class): Mapper<any, any> {
   const valueMapper = findValueMapper(elementType);
   if (!valueMapper) {
     throw new Error(
-      `DD003: No mapper is found for ${elementType.name ? elementType.name : elementType}. If it is an Entity or Value, please annotate it first`
+      `DM003: No mapper is found for ${elementType.name ? elementType.name : elementType}. If it is an Entity or Value, please annotate it first`
     );
   }
 
@@ -100,7 +100,7 @@ function getOrComposeSetMapperInstance(elementType: Class): Mapper<any, any> {
   const valueMapper = findValueMapper(elementType);
   if (!valueMapper) {
     throw new Error(
-      `DD003: No mapper is found for ${elementType.name ? elementType.name : elementType}. If it is an Entity or Value, please annotate it first`
+      `DM003: No mapper is found for ${elementType.name ? elementType.name : elementType}. If it is an Entity or Value, please annotate it first`
     );
   }
 
@@ -143,7 +143,7 @@ export function configureAttributeWithValueMapper(entityType: Class, propertyNam
 export function configureAttribute(entityType: Class, propertyName: string | Symbol, dbName: string, type: Class) {
   const valueMapper = findValueMapper(type);
   if (!valueMapper) {
-    throw new Error(`DD004: No mapper is found for ${type.name ? type.name : type}. If it is an Entity or Value, please annotate it first`);
+    throw new Error(`DM004: No mapper is found for ${type.name ? type.name : type}. If it is an Entity or Value, please annotate it first`);
   }
   return configureAttributeWithValueMapper(entityType, propertyName, dbName, valueMapper);
 }
